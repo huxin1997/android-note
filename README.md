@@ -104,6 +104,8 @@ listView 复用原理：每一个item显示时都需要调用adapter的getView�
 
 ​	![](.\img\recycler.jpg)
 
+大佬就是大佬
+
 ### issue
 
 ​	如果使用了recycler缓存机制，新加载的item由于是复用之间隐藏的item将会出现控件属性还是之间item的，造成状态混乱。
