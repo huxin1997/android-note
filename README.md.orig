@@ -1091,22 +1091,22 @@ public class ProgressBarActivity extends AppCompatActivity {
             >
         </DatePicker>
 <View
-​    android:layout_width="1dp"
-​    android:layout_height="match_parent"
-​    android:background="#ff0000"
-​    >
+    android:layout_width="1dp"
+    android:layout_height="match_parent"
+    android:background="#ff0000"
+    >
 </View>
-​        <DatePicker
-​            android:id="@+id/dp_showa"
-​            android:layout_weight="1"
-​            style="@android:style/Widget.DatePicker"
-​            android:layout_width="wrap_content"
-​            android:layout_height="wrap_content"
-​            android:spinnersShown="true"
-​            android:endYear="2099"
-​            >
-​        </DatePicker>
-​    </LinearLayout>
+        <DatePicker
+            android:id="@+id/dp_showa"
+            android:layout_weight="1"
+            style="@android:style/Widget.DatePicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:spinnersShown="true"
+            android:endYear="2099"
+            >
+        </DatePicker>
+    </LinearLayout>
 </LinearLayout>
 
 ```
@@ -1425,7 +1425,7 @@ listView 复用原理：每一个item显示时都需要调用adapter的getView�
 
 ​	![](.\img\recycler.jpg)
 
-**issue**
+### issue
 
 ​	如果使用了recycler缓存机制，新加载的item由于是复用之间隐藏的item将会出现控件属性还是之间item的，造成状态混乱。
 
@@ -1595,7 +1595,9 @@ LinearLayout是一个控件容器，用于将容器内的子元素按照指定�
 
 ![](.\img\relative_layout.jpg)梅花布局
 
-![](.\img\meihua.jpg)
+![
+
+](F:\资料文档\笔记\Android笔记\img\meihua.jpg)
 
 ## Spinner
 
@@ -1777,50 +1779,6 @@ setTitle(R.string.actdialog_title);  //XML代码中设置:android:label="@string
 
 - **android:groupIndicator**：显示在组列表旁边的Drawable对象，可以是一个图像
 
-![](.\img\expandable_1.jpg)
-
-**生成group视图**
-
-```java
-@Override
-public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        if (convertView == null) {
-         convertView = getLayoutInflater().inflate(android.R.layout.simple_expandable_list_item_1, parent, false);
-         }
-          TextView groupName = convertView.findViewById(android.R.id.text1);
-          groupName.setText(groups.get(groupPosition).groupName);
-          return convertView;
-}
-```
-
-**生成group的items视图**
-
-```java
-            @Override
-            public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-//                if (convertView == null) {
-                View view = getLayoutInflater().inflate(R.layout.item_person, parent, false);
-//                }？
-
-                final Person person = groups.get(groupPosition).items.get(childPosition);
-
-                ImageView imageView = view.findViewById(R.id.img_person);
-                TextView tvName = view.findViewById(R.id.tv_name);
-                CheckBox checkBox = view.findViewById(R.id.cb_select);
-
-
-                imageView.setBackgroundResource(person.imgId);
-                tvName.setText(person.name);
-                checkBox.setChecked(person.isSeleted);
-                checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        person.isSeleted = isChecked;
-                    }
-                });
-                return view;
-            }
-```
 
 
 
@@ -1832,84 +1790,6 @@ ProgressDialog progressDialog = new ProgressDialog(this);
 ```
 
 第一种的方式不能更改progress样式。	
-
-
-
-## Notification
-
-**1）Notification的基本布局**
-
-![img](.\img\38056771.jpg)
-
-> 上面的组成元素依次是：
->
-> - **Icon/Photo**：大图标
-> - **Title/Name**：标题
-> - **Message**：内容信息
-> - **Timestamp**：通知时间，默认是系统发出通知的时间，也可以通过setWhen()来设置
-> - **Secondary Icon**：小图标
-> - **内容文字**，在小图标的左手边的一个文字
-
-
-
-**2.Notification的基本使用流程**
-
-> 状态通知栏主要涉及到2个类：Notification 和NotificationManager
->
-> **Notification**：通知信息类，它里面对应了通知栏的各个属性
->
-> **NotificationManager**：是状态栏通知的管理类，负责发通知、清除通知等操作。
->
-> 使用的基本流程：
->
-> - **Step 1.** 获得NotificationManager对象： NotificationManager mNManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-> - **Step 2.** 创建一个通知栏的Builder构造类： Notification.Builder mBuilder = new Notification.Builder(this);
-> - **Step 3.** 对Builder进行相关的设置，比如标题，内容，图标，动作等！
-> - **Step 4.**调用Builder的build()方法为notification赋值
-> - **Step 5**.调用NotificationManager的notify()方法发送通知！
-> - **PS:**另外我们还可以调用NotificationManager的cancel()方法取消通知
-
-
-
-**代码方面**
-
-- **setContentTitle**(CharSequence)：设置标题
-- **setContentText**(CharSequence)：设置内容
-- **setSubText**(CharSequence)：设置内容下面一小行的文字
-- **setTicker**(CharSequence)：设置收到通知时在顶部显示的文字信息
-- **setWhen**(long)：设置通知时间，一般设置的是收到通知时的System.currentTimeMillis()
-- **setSmallIcon**(int)：设置右下角的小图标，在接收到通知的时候顶部也会显示这个小图标
-- **setLargeIcon**(Bitmap)：设置左边的大图标
-- **setAutoCancel**(boolean)：用户点击Notification点击面板后是否让通知取消(默认不取消)
-- **setDefaults**(int)：向通知添加声音、闪灯和振动效果的最简单、 使用默认（defaults）属性，可以组合多个属性，
-  **Notification.DEFAULT_VIBRATE**(添加默认震动提醒)；
-  **Notification.DEFAULT_SOUND**(添加默认声音提醒)；
-  **Notification.DEFAULT_LIGHTS**(添加默认三色灯提醒)
-  **Notification.DEFAULT_ALL**(添加默认以上3种全部提醒)
-- **setVibrate**(long[])：设置振动方式，比如：
-  setVibrate(new long[] {0,300,500,700});延迟0ms，然后振动300ms，在延迟500ms， 接着再振动700ms，关于Vibrate用法后面会讲解！
-- **setContentIntent**(PendingIntent)：PendingIntent和Intent略有不同，它可以设置执行次数， 主要用于远程服务通信、闹铃、通知、启动器、短信中，在一般情况下用的比较少。比如这里通过 Pending启动Activity：getActivity(Context, int, Intent, int)，当然还可以启动Service或者Broadcast PendingIntent的位标识符(第四个参数)：
-  **FLAG_ONE_SHOT** 表示返回的PendingIntent仅能执行一次，执行完后自动取消
-  **FLAG_NO_CREATE** 表示如果描述的PendingIntent不存在，并不创建相应的PendingIntent，而是返回NULL
-  **FLAG_CANCEL_CURRENT** 表示相应的PendingIntent已经存在，则取消前者，然后创建新的PendingIntent， 这个有利于数据保持为最新的，可以用于即时通信的通信场景
-  **FLAG_UPDATE_CURRENT** 表示更新的PendingIntent
-  使用示例：
-
-
-
-## AlertDialog
-
-**1.基本使用流程**
-
-> - **Step 1**：创建**AlertDialog.Builder**对象；
-> - **Step 2**：调用**setIcon()**设置图标，**setTitle()**或**setCustomTitle()**设置标题；
-> - **Step 3**：设置对话框的内容：**setMessage()**还有其他方法来指定显示的内容；
-> - **Step 4**：调用**setPositive/Negative/NeutralButton()**设置：确定，取消，中立按钮；
-> - **Step 5**：调用**create()**方法创建这个对象，再调用**show()**方法将对话框显示出来；
-
-
-
-setView() 可以设置自定义布局
 
 
 
@@ -2130,6 +2010,7 @@ sendBroadcast(intent);
 
 另外intent中还有Data(数据)，Type(MIME类型)两种用法，由于基本上用不上就不在讲解。
 
+<<<<<<< HEAD
 
 
 ## Service
@@ -2141,42 +2022,42 @@ sendBroadcast(intent);
 **创建一个类**
 
 ```java
-public class TestService1 extends Service {
-
+public class TestService1 extends Service {  
+	
     //必须实现的方法，绑定该Service时回调该方法，不绑定则不需要返回
-    @Override
-    public IBinder onBind(Intent intent) {
-        Log.i(TAG, "onBind方法被调用!");
-        return null;
+    @Override  
+    public IBinder onBind(Intent intent) {  
+        Log.i(TAG, "onBind方法被调用!");  
+        return null;  
     }
-
-     //Service被创建时回调
-    @Override
+    
+     //Service被创建时回调  
+    @Override  
     public void onCreate() { ... }
-
-    //Service被关闭前回调
-    @Override
+    
+    //Service被关闭前回调  
+    @Override  
     public void onDestroy() { ... }
-
-    //Service被启动时调用
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        ...
-        return super.onStartCommand(intent, flags, startId);
+    
+    //Service被启动时调用  
+    @Override  
+    public int onStartCommand(Intent intent, int flags, int startId) {  
+        ...  
+        return super.onStartCommand(intent, flags, startId);  
     }
-
+    
 }
 ```
 
 **在主配置文件中去注册Service**
 
 ```xml
-<!-- 配置Service组件,同时配置一个action -->
-<service android:name=".TestService1">
-            <intent-filter>
-                <action android:name="com.jay.example.service.TEST_SERVICE1"/>
-            </intent-filter>
-</service>
+<!-- 配置Service组件,同时配置一个action -->  
+<service android:name=".TestService1">  
+            <intent-filter>  
+                <action android:name="com.jay.example.service.TEST_SERVICE1"/>  
+            </intent-filter>  
+</service>  
 ```
 
 **代码中启动**
@@ -2204,6 +2085,8 @@ startService(intent); //intent = new Intent(MainActivity.this,Service.class)
 
 
 
+=======
+>>>>>>> 6a4c1c61a0357cea123826d864d6bcbe7ca0f272
 ## ShapeDrawable
 
 形状的Drawable咯,定义基本的几何图形,如(矩形,圆形,线条等),根元素是<shape../> 节点比较多，相关的节点如下：
@@ -2310,7 +2193,7 @@ startService(intent); //intent = new Intent(MainActivity.this,Service.class)
         android:type="radial"
         android:useLevel="false" />
 
-</shape>
+</shape> 
 ```
 
 **(平铺渐变)gradient_sweep.xml**:
@@ -2330,7 +2213,7 @@ startService(intent); //intent = new Intent(MainActivity.this,Service.class)
         android:type="sweep"
         android:useLevel="false" />
 
-</shape>
+</shape> 
 ```
 
 调用三个drawable的**activity_main.xml**:
@@ -2360,7 +2243,7 @@ startService(intent); //intent = new Intent(MainActivity.this,Service.class)
         android:layout_height="100dp"
         android:background="@drawable/gradient_sweep" />
 
-</LinearLayout>
+</LinearLayout>  
 ```
 
 ## BitmapDrawable
@@ -2381,19 +2264,19 @@ startService(intent); //intent = new Intent(MainActivity.this,Service.class)
 **①XML定义BitmapDrawable**:
 
 ```
-<?xml version="1.0" encoding="utf-8"?>
-<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
-    android:dither="true"
-    android:src="@drawable/ic_launcher"
+<?xml version="1.0" encoding="utf-8"?>  
+<bitmap xmlns:android="http://schemas.android.com/apk/res/android"  
+    android:dither="true"  
+    android:src="@drawable/ic_launcher"  
     android:tileMode="mirror" />
 ```
 
 **②实现相同效果的Java代码**:
 
 ```
-BitmapDrawable bitDrawable = new BitmapDrawable(bitmap);
-bitDrawable.setDither(true);
-bitDrawable.setTileModeXY(TileMode.MIRROR,TileMode.MIRROR);
+BitmapDrawable bitDrawable = new BitmapDrawable(bitmap);  
+bitDrawable.setDither(true);  
+bitDrawable.setTileModeXY(TileMode.MIRROR,TileMode.MIRROR);  
 ```
 
 ## ClipDrawable
@@ -2486,7 +2369,7 @@ public class MainActivity extends AppCompatActivity {
             </shape>
         </clip>
     </item>
-</layer-list>
+</layer-list> 
 ```
 
 然后在布局文件中添加一个Seekbar，内容如下：
@@ -2558,613 +2441,3 @@ public class MainActivity extends AppCompatActivity {
 ```
 
 然后按钮设置android:background="@drawable/selctor_btn"就可以了~ 你可以根据自己需求改成矩形或者椭圆，圆形等！
-
-## Bitmap
-
-> **普通方法**
->
-> - public boolean **compress** (Bitmap.CompressFormat format, int quality, OutputStream stream) 将位图的压缩到指定的OutputStream，可以理解成将Bitmap保存到文件中！ **format**：格式，PNG，JPG等； **quality**：压缩质量，0-100，0表示最低画质压缩，100最大质量(PNG无损，会忽略品质设定) **stream**：输出流 返回值代表是否成功压缩到指定流！
-> - void **recycle**()：回收位图占用的内存空间，把位图标记为Dead
-> - boolean **isRecycled**()：判断位图内存是否已释放
-> - int **getWidth**()：获取位图的宽度
-> - int **getHeight**()：获取位图的高度
-> - boolean **isMutable**()：图片是否可修改
-> - int **getScaledWidth**(Canvas canvas)：获取指定密度转换后的图像的宽度
-> - int **getScaledHeight**(Canvas canvas)：获取指定密度转换后的图像的高度
->
-> **静态方法**：
->
-> - Bitmap **createBitmap**(Bitmap src)：以src为原图生成不可变得新图像
-> - Bitmap **createScaledBitmap**(Bitmap src, int dstWidth,int dstHeight, boolean filter)：以src为原图，创建新的图像，指定新图像的高宽以及是否变。
-> - Bitmap **createBitmap**(int width, int height, Config config)：创建指定格式、大小的位图
-> - Bitmap **createBitmap**(Bitmap source, int x, int y, int width, int height)以source为原图，创建新的图片，指定起始坐标以及新图像的高宽。
-> - public static Bitmap **createBitmap**(Bitmap source, int x, int y, int width, int height, Matrix m, boolean filter)
-
-**BitmapFactory.Option**可设置参数：
-
-> - boolean **inJustDecodeBounds**——如果设置为true，不获取图片，不分配内存，但会返回图片的高宽度信息。
-> - int **inSampleSize**——图片缩放的倍数。如果设为4，则宽和高都为原来的1/4，则图是原来的1/16。
-> - int **outWidth**——获取图片的宽度值
-> - int **outHeight**——获取图片的高度值
-> - int **inDensity**——用于位图的像素压缩比
-> - int **inTargetDensity**——用于目标位图的像素压缩比（要生成的位图）
-> - boolean **inScaled**——设置为true时进行图片压缩，从inDensity到inTargetDensity。
-
-##### 获取Bitmap位图
-
-> 从资源中获取位图的方式有两种：通过BitmapDrawable或者BitmapFactory，下面演示下： 我们首先得获得这个
-
-**BitmapDrawable方法**：
-
-你可以创建一个构造一个BitmapDrawable对象，比如通过流构建BitmapDrawable：
-
-```
-BitmapDrawable bmpMeizi = new BitmapDrawable(getAssets().open("pic_meizi.jpg"));
-Bitmap mBitmap = bmpMeizi.getBitmap();
-img_bg.setImageBitmap(mBitmap);
-```
-
-**BitmapFactory方法**：
-
-都是静态方法，直接调，可以通过资源ID、路径、文件、数据流等方式来获取位图！
-
-```
-//通过资源ID
-private Bitmap getBitmapFromResource(Resources res, int resId) {
-      return BitmapFactory.decodeResource(res, resId);
-}
-
-//文件
-private Bitmap getBitmapFromFile(String pathName) {
-      return BitmapFactory.decodeFile(pathName);
-}
-
-//字节数组
-public Bitmap Bytes2Bimap(byte[] b) {
-    if (b.length != 0) {
-        return BitmapFactory.decodeByteArray(b, 0, b.length);
-    } else {
-        return null;
-    }
-}
-
-//输入流
-private Bitmap getBitmapFromStream(InputStream inputStream) {
-      return BitmapFactory.decodeStream(inputStream);
-}
-```
-
-抠图片上的某一角下来
-
-有时，可能你想把图片上的某一角扣下来，直接通过Bitmap的createBitmap()扣下来即可 参数依次为：处理的bitmap对象，起始x,y坐标，以及截取的宽高
-
-```
-Bitmap bitmap1 = BitmapFactory.decodeResource(getResources(), R.mipmap.pic_meizi);
-Bitmap bitmap2 = Bitmap.createBitmap(bitmap1,100,100,200,200);
-img_bg = (ImageView) findViewById(R.id.img_bg);
-img_bg.setImageBitmap(bitmap2);
-```
-
-**运行效果图**：
-
-原图：
-
-![img](http://www.runoob.com/wp-content/uploads/2015/10/54694376.jpg)
-
-------
-
-##### 对Bitmap进行缩放
-
-我们这里不用Matrix来对Bitmap，而是直接使用Bitmap给我们提供的**createScaledBitmap**来实现， 参数依次是：处理的bitmap对象，缩放后的宽高，
-
-![img](http://www.runoob.com/wp-content/uploads/2015/10/2135673.jpg)
-
-------
-
-##### 使用Bitmap进行截屏
-
-**运行效果图**：
-
-![img](http://www.runoob.com/wp-content/uploads/2015/10/46565610.jpg)
-
-**实现代码**：
-
-```
-public class MainActivity extends AppCompatActivity {
-    static ByteArrayOutputStream byteOut = null;
-    private Bitmap bitmap = null;
-    private Button btn_cut;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        btn_cut = (Button) findViewById(R.id.btn_cut);
-        btn_cut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                captureScreen();
-            }
-        });
-    }
-
-    public void captureScreen() {
-        Runnable action = new Runnable() {
-            @Override
-            public void run() {
-                final View contentView = getWindow().getDecorView();
-                try{
-                    Log.e("HEHE",contentView.getHeight()+":"+contentView.getWidth());
-                    bitmap = Bitmap.createBitmap(contentView.getWidth(),
-                            contentView.getHeight(), Bitmap.Config.ARGB_4444);
-                    contentView.draw(new Canvas(bitmap));
-                    ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteOut);
-                    savePic(bitmap, "sdcard/short.png");
-                }catch (Exception e){e.printStackTrace();}
-                finally {
-                    try{
-                        if (null != byteOut)
-                            byteOut.close();
-                        if (null != bitmap && !bitmap.isRecycled()) {
-//                            bitmap.recycle();
-                            bitmap = null;
-                        }
-                    }catch (IOException e){e.printStackTrace();}
-
-                }
-            }
-        };
-        try {
-            action.run();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void savePic(Bitmap b, String strFileName) {
-        FileOutputStream fos = null;
-        try {
-            fos = new FileOutputStream(strFileName);
-            if (null != fos) {
-                boolean success= b.compress(Bitmap.CompressFormat.PNG, 100, fos);
-                fos.flush();
-                fos.close();
-                if(success)
-                    Toast.makeText(MainActivity.this, "截屏成功", Toast.LENGTH_SHORT).show();
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-}
-```
-
-## ViewPager
-
-##### ViewPager使用的Adapter
-
-- **FragmentPageAdapter**：和PagerAdapter一样，只会缓存当前的Fragment以及左边一个，右边 一个，即总共会缓存3个Fragment而已，假如有1，2，3，4四个页面：
-  处于1页面：缓存1，2
-  处于2页面：缓存1，2，3
-  处于3页面：销毁1页面，缓存2，3，4
-  处于4页面：销毁2页面，缓存3，4
-  更多页面的情况，依次类推~
-- **PagerAdapter**：最基本的用法。
-
-##### PagerAdapter的使用
-
-> 我们先来介绍最普通的PagerAdapter，如果想使用这个PagerAdapter需要重写下面的四个方法： 当然，这只是官方建议，实际上我们只需重写getCount()和isViewFromObject()就可以了~
->
-> - **getCount()**:获得viewpager中有多少个view
-> - **destroyItem()**:移除一个给定位置的页面。适配器有责任从容器中删除这个视图。 这是为了确保在finishUpdate(viewGroup)返回时视图能够被移除。
->
-> 而另外两个方法则是涉及到一个key的东东：
->
-> - **instantiateItem()**: ①将给定位置的view添加到ViewGroup(容器)中,创建并显示出来 ②返回一个代表新增页面的Object(key),通常都是直接返回view本身就可以了,当然你也可以 自定义自己的key,但是key和每个view要一一对应的关系
-> - **isViewFromObject()**: 判断instantiateItem(ViewGroup, int)函数所返回来的Key与一个页面视图是否是 代表的同一个视图(即它俩是否是对应的，对应的表示同一个View),通常我们直接写 return view == object!
-
-##### 使用示例1：最简单用法
-
-**运行效果图**：
-
-![img](http://www.runoob.com/wp-content/uploads/2015/10/68392114.jpg)
-
-**关键部分代码**：
-
-好的，代码写起来也是非常简单的：首先是每个View的布局，一式三份，另外两个View一样：
-
-**view_one.xml**：
-
-```
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#FFBA55"
-    android:gravity="center"
-    android:orientation="vertical">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="第一个Page"
-        android:textColor="#000000"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-</LinearLayout>  
-```
-
-然后编写一个自定义个的PagerAdapter：
-
-**MyPagerAdapter.java**：
-
-```
-public class MyPagerAdapter extends PagerAdapter {
-    private ArrayList<View> viewLists;
-
-    public MyPagerAdapter() {
-    }
-
-    public MyPagerAdapter(ArrayList<View> viewLists) {
-        super();
-        this.viewLists = viewLists;
-    }
-
-    @Override
-    public int getCount() {
-        return viewLists.size();
-    }
-
-    @Override
-    public boolean isViewFromObject(View view, Object object) {
-        return view == object;
-    }
-
-    @Override
-    public Object instantiateItem(ViewGroup container, int position) {
-        container.addView(viewLists.get(position));
-        return viewLists.get(position);
-    }
-
-    @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
-        container.removeView(viewLists.get(position));
-    }
-}
-```
-
-接着到Activity了，和以前学的ListView非常类似：
-
-**OneActivity.java**：
-
-```
-public class OneActivity extends AppCompatActivity{
-
-    private ViewPager vpager_one;
-    private ArrayList<View> aList;
-    private MyPagerAdapter mAdapter;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_one);
-        vpager_one = (ViewPager) findViewById(R.id.vpager_one);
-
-        aList = new ArrayList<View>();
-        LayoutInflater li = getLayoutInflater();
-        aList.add(li.inflate(R.layout.view_one,null,false));
-        aList.add(li.inflate(R.layout.view_two,null,false));
-        aList.add(li.inflate(R.layout.view_three,null,false));
-        mAdapter = new MyPagerAdapter(aList);
-        vpager_one.setAdapter(mAdapter);
-    }
-}
-```
-
-##### 标题栏——PagerTitleStrip与PagerTabStrip
-
-> 就是跟随着ViewPager滑动而滑动的标题咯，这两个是官方提供的，一个是普通文字， 一个是带有下划线，以及可以点击文字可切换页面，下面我们来写个简单的例子~
-
-**运行效果图**：
-
-![img](http://www.runoob.com/wp-content/uploads/2015/10/51098800.jpg)
-
-**关键代码实现**：
-
-这里两者的区别仅仅是布局不一样而已，其他的都一样：
-
-**PagerTitleStrip**所在Activtiy的布局： **activity_two.xml**：
-
-```
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="#CCFF99"
-        android:gravity="center"
-        android:text="PagerTitleStrip效果演示"
-        android:textColor="#000000"
-        android:textSize="18sp" />
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/vpager_two"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center">
-
-        <android.support.v4.view.PagerTitleStrip
-            android:id="@+id/pagertitle"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_gravity="top"
-            android:textColor="#FFFFFF" />
-   </android.support.v4.view.ViewPager>
-
-</LinearLayout> 
-```
-
-而PagerTabStrip所在的布局：
-
-**activity_three.xml**：
-
-```
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:background="#C0C080"
-        android:gravity="center"
-        android:text="PagerTabStrip效果演示"
-        android:textSize="18sp" />
-        
-    <android.support.v4.view.ViewPager
-        android:id="@+id/vpager_three"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center">
-
-        <android.support.v4.view.PagerTabStrip
-            android:id="@+id/pagertitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top" />
-     </android.support.v4.view.ViewPager>
-</LinearLayout>
-```
-
-接下来的两者都一样了，我们先来编写一个自定义的PagerAdapter，除了前面重写的 四个方法外，我们需要另外重写一个方法：**getPageTitle**()，这个设置标题的~ 代码如下：
-
-**MyPagerAdapter2.java**：
-
-```
-/**
- * Created by Jay on 2015/10/8 0008.
- */
-public class MyPagerAdapter2 extends PagerAdapter {
-    private ArrayList<View> viewLists;
-    private ArrayList<String> titleLists;
-
-    public MyPagerAdapter2() {}
-    public MyPagerAdapter2(ArrayList<View> viewLists,ArrayList<String> titleLists)
-    {
-        this.viewLists = viewLists;
-        this.titleLists = titleLists;
-    }
-
-    @Override
-    public int getCount() {
-        return viewLists.size();
-    }
-
-    @Override
-    public boolean isViewFromObject(View view, Object object) {
-        return view == object;
-    }
-
-    @Override
-    public Object instantiateItem(ViewGroup container, int position) {
-        container.addView(viewLists.get(position));
-        return viewLists.get(position);
-    }
-
-    @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
-        container.removeView(viewLists.get(position));
-    }
-
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return titleLists.get(position);
-    }
-}
-```
-
-最后是Activity部分，两个都是一样的：
-
-**TwoActivity.java**：
-
-```
-/**
- * Created by Jay on 2015/10/8 0008.
- */
-public class TwoActivity extends AppCompatActivity {
-
-    private ViewPager vpager_two;
-    private ArrayList<View> aList;
-    private ArrayList<String> sList;
-    private MyPagerAdapter2 mAdapter;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_two);
-        vpager_two = (ViewPager) findViewById(R.id.vpager_two);
-        aList = new ArrayList<View>();
-        LayoutInflater li = getLayoutInflater();
-        aList.add(li.inflate(R.layout.view_one,null,false));
-        aList.add(li.inflate(R.layout.view_two,null,false));
-        aList.add(li.inflate(R.layout.view_three, null, false));
-        sList = new ArrayList<String>();
-        sList.add("橘黄");
-        sList.add("淡黄");
-        sList.add("浅棕");
-        mAdapter = new MyPagerAdapter2(aList,sList);
-        vpager_two.setAdapter(mAdapter);
-    }
-}
-```
-
-##### FragmentPagerAdapter的使用
-
-```
-public class ViewPagerAndFragmentActivity extends AppCompatActivity {
-
-    ViewPager vp_f_content;
-    List<Fragment> f_lists=new ArrayList<>();
-    List<String> t_lists=new ArrayList<>();
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        f_lists.add(new MyFragmentDemoA());
-        f_lists.add(new MyFragmentDemoB());
-        f_lists.add(new MyFragmentDemoC());
-        f_lists.add(new MyFragmentDemoD());
-        t_lists.add("第一个");
-        t_lists.add("第二个");
-        t_lists.add("第三个");
-        t_lists.add("第四个");
-        setContentView(R.layout.activity_view_pager_and_fragment);
-        vp_f_content= (ViewPager) findViewById(R.id.vp_f_content);
-        FragmentPagerAdapter fragmentPagerAdapter=new FragmentPagerAdapter(getSupportFragmentManager()) {
-
-            @Override
-            public long getItemId(int position) {
-                return super.getItemId(position);
-            }
-
-            @Override
-            public Fragment getItem(int position) {
-                Fragment fragment = f_lists.get(position);
-                return fragment;
-            }
-
-            @Override
-            public int getCount() {
-                return f_lists.size();
-            }
-
-            @Override
-            public CharSequence getPageTitle(int position) {
-                return t_lists.get(position);
-            }
-        };
-        vp_f_content.setAdapter(fragmentPagerAdapter);
-
-    }
-}
-```
-
-Fragment界面代码：
-
-```
-public class MyFragmentDemoA extends Fragment {
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View inflate = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_a_view, null);
-        Button button=inflate.findViewById(R.id.btn_fragment_a_toast);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle arguments = getArguments();
-                try {
-                        Toast.makeText(getActivity(), "我是第一个fragment中的button按钮。内容为:" + arguments.getString("cai"), Toast.LENGTH_SHORT).show();
-                }catch (Exception e){
-                    Toast.makeText(getActivity(), "没有内容。", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        return inflate;
-    }
-    
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-}
-```
-
-Fragment布局xml：
-
-```
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:background="#ff0000"
-    android:layout_height="match_parent">
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center"
-    android:textSize="20dp"
-    android:text="第一个界面"
-    />
-    <Button
-        android:id="@+id/btn_fragment_a_toast"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="按钮"
-        />
-</LinearLayout>
-```
-
-activity布局xml：
-
-```
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/vp_f_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-<android.support.v4.view.PagerTabStrip
-    android:layout_width="match_parent"
-    android:layout_height="40dp">
-
-</android.support.v4.view.PagerTabStrip>
-    </android.support.v4.view.ViewPager>
-
-</LinearLayout>
-```
-
-实现效果：
-
-![](.\img\view_pager_fragment.png)
