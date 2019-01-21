@@ -405,7 +405,7 @@ dividerHeight：divider的高度。
 
 预览图如下：
 
-![1546657356751](C:\Users\baikunlong\AppData\Roaming\Typora\typora-user-images\1546657356751.png)
+![546657356751](img\listview_review.png)
 
 使用xml配置ListView的数据
 
