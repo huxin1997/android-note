@@ -475,7 +475,7 @@ entries：填充res里的values里已经配置好的固定数据
 
 LinearLayout是一个控件容器，用于将容器内的子元素按照指定的方向(水平或者垂直)线性排列。LinearLayout 继承自ViewGroup，呈线性显示它的子元素，水平排列一行或者垂直显示一列Views。
 
-##### orientation
+##### **orientation**
 
 ```xml
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -597,9 +597,18 @@ LinearLayout是一个控件容器，用于将容器内的子元素按照指定�
 
 ## ExpandableListView
 
-- ExpandableAdapter 存放group以及group的子元素
+- **ExpandableAdapter** 存放group以及group的子元素
 
-## ProgressDialog
+- **android:childDivider**：指定各组内子类表项之间的分隔条，图片不会完全显示， 分离子列表项的是一条直线
+
+- **android:childIndicator**：显示在子列表旁边的Drawable对象，可以是一个图像
+
+- **android:groupIndicator**：显示在组列表旁边的Drawable对象，可以是一个图像
+
+
+
+
+## ProgressDialog的
 
 ```java
 ProgressDialog progressDialog = ProgressDialog.show(this, "提示", "加载中...");
