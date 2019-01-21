@@ -1,3 +1,7 @@
+
+
+
+
 # 基础控件
 
 ## TextView
@@ -3215,3 +3219,185 @@ activity布局xml：
 实现效果：
 
 ![](.\img\view_pager_fragment.png)
+
+## Android五种补间动画
+
+- **AlphaAnimation：**透明度渐变效果，创建时许指定开始以及结束透明度，还有动画的持续 时间，透明度的变化范围(0,1)，0是完全透明，1是完全不透明；对应<**alpha**/>标签！
+- **ScaleAnimation**：缩放渐变效果，创建时需指定开始以及结束的缩放比，以及缩放参考点， 还有动画的持续时间；对应<**scale**/>标签！
+- **TranslateAnimation**：位移渐变效果，创建时指定起始以及结束位置，并指定动画的持续 时间即可；对应<**translate**/>标签！
+- **RotateAnimation**：旋转渐变效果，创建时指定动画起始以及结束的旋转角度，以及动画 持续时间和旋转的轴心；对应<**rotate**/>标签
+- **AnimationSet**：组合渐变，就是前面多种渐变的组合，对应<**set**/>标签
+
+##### Interpolator 渲染控制器
+
+- **LinearInterpolator**：动画以均匀的速度改变
+- **AccelerateInterpolator**：在动画开始的地方改变速度较慢，然后开始加速
+- **AccelerateDecelerateInterpolator**：在动画开始、结束的地方改变速度较慢，中间时加速
+- **CycleInterpolator**：动画循环播放特定次数，变化速度按正弦曲线改变： Math.sin(2 * mCycles * Math.PI * input)
+- **DecelerateInterpolator**：在动画开始的地方改变速度较快，然后开始减速
+- **AnticipateInterpolator**：反向，先向相反方向改变一段再加速播放
+- **AnticipateOvershootInterpolator**：开始的时候向后然后向前甩一定值后返回最后的值
+- **BounceInterpolator**： 跳跃，快到目的值时值会跳跃，如目的值100，后面的值可能依次为85，77，70，80，90，100
+- **OvershottInterpolator**：回弹，最后超出目的值然后缓慢改变到目的值
+
+##### 各种动画的详细讲解
+
+###### **1）AlphaAnimation(透明度渐变)**
+
+**anim_alpha.xml**：
+
+```
+<alpha xmlns:android="http://schemas.android.com/apk/res/android"  
+    android:interpolator="@android:anim/accelerate_decelerate_interpolator"  
+    android:fromAlpha="1.0"  
+    android:toAlpha="0.1"  
+    android:duration="2000"/>
+```
+
+属性解释：
+
+**fromAlpha** :起始透明度
+**toAlpha**:结束透明度
+透明度的范围为：0-1，完全透明-完全不透明
+
+------
+
+###### **2）ScaleAnimation(缩放渐变)**
+
+**anim_scale.xml**：
+
+```
+<scale xmlns:android="http://schemas.android.com/apk/res/android"  
+    android:interpolator="@android:anim/accelerate_interpolator"  
+    android:fromXScale="0.2"  
+    android:toXScale="1.5"  
+    android:fromYScale="0.2"  
+    android:toYScale="1.5"  
+    android:pivotX="50%"  
+    android:pivotY="50%"  
+    android:duration="2000"/>
+```
+
+属性解释：
+
+> - **fromXScale**/**fromYScale**：沿着X轴/Y轴缩放的起始比例
+> - **toXScale**/**toYScale**：沿着X轴/Y轴缩放的结束比例
+> - **pivotX**/**pivotY**：缩放的中轴点X/Y坐标，即距离自身左边缘的位置，比如50%就是以图像的 中心为中轴点
+
+------
+
+###### **3）TranslateAnimation(位移渐变)**
+
+**anim_translate.xml**：
+
+```
+<translate xmlns:android="http://schemas.android.com/apk/res/android"  
+    android:interpolator="@android:anim/accelerate_decelerate_interpolator"  
+    android:fromXDelta="0"  
+    android:toXDelta="320"  
+    android:fromYDelta="0"  
+    android:toYDelta="0"  
+    android:duration="2000"/>
+```
+
+属性解释：
+
+> - **fromXDelta**/**fromYDelta**：动画起始位置的X/Y坐标
+> - **toXDelta**/**toYDelta**：动画结束位置的X/Y坐标
+
+------
+
+###### **4）RotateAnimation(旋转渐变)**
+
+**anim_rotate.xml**：
+
+```
+<rotate xmlns:android="http://schemas.android.com/apk/res/android"  
+    android:interpolator="@android:anim/accelerate_decelerate_interpolator"  
+    android:fromDegrees="0"  
+    android:toDegrees="360"  
+    android:duration="1000"  
+    android:repeatCount="1"  
+    android:repeatMode="reverse"/> 
+```
+
+属性解释：
+
+> - **fromDegrees**/**toDegrees**：旋转的起始/结束角度
+> - **repeatCount**：旋转的次数，默认值为0，代表一次，假如是其他值，比如3，则旋转4次 另外，值为-1或者infinite时，表示动画永不停止
+> - **repeatMode**：设置重复模式，默认**restart**，但只有当repeatCount大于0或者infinite或-1时 才有效。还可以设置成**reverse**，表示偶数次显示动画时会做方向相反的运动！
+
+------
+
+###### **5）AnimationSet(组合渐变)**
+
+非常简单，就是前面几个动画组合到一起而已~
+
+**anim_set.xml**：
+
+```
+<set xmlns:android="http://schemas.android.com/apk/res/android"  
+    android:interpolator="@android:anim/decelerate_interpolator"  
+    android:shareInterpolator="true" >  
+  
+    <scale  
+        android:duration="2000"  
+        android:fromXScale="0.2"  
+        android:fromYScale="0.2"  
+        android:pivotX="50%"  
+        android:pivotY="50%"  
+        android:toXScale="1.5"  
+        android:toYScale="1.5" />  
+  
+    <rotate  
+        android:duration="1000"  
+        android:fromDegrees="0"  
+        android:repeatCount="1"  
+        android:repeatMode="reverse"  
+        android:toDegrees="360" />  
+  
+    <translate  
+        android:duration="2000"  
+        android:fromXDelta="0"  
+        android:fromYDelta="0"  
+        android:toXDelta="320"  
+        android:toYDelta="0" />  
+  
+    <alpha  
+        android:duration="2000"  
+        android:fromAlpha="1.0"  
+        android:toAlpha="0.1" />  
+</set>  
+```
+
+##### 动画基本使用
+
+跳转activity时使用动画
+
+**注意：在startActivity(intent)**或者**finish()**后添加 overridePendingTransition(R.anim.set_out,R.anim.set_in);
+
+```
+Intent intent=new Intent(AnimDemoActivity.this,TranslateAnimDemoActivity.class);
+startActivity(intent);
+overridePendingTransition(R.anim.set_out,R.anim.set_in);
+```
+
+**跳转Fragment时使用动画** setCustomAnimations(R.anim.view_flipper_in,R.anim.view_flipper_a)
+
+```
+fragmentTransaction= fragmentManager.beginTransaction();
+Bundle bundle=new Bundle();
+bundle.putString("cai","这是传送过去的数据。");
+MyFragmentDemoA fragment = new MyFragmentDemoA();
+fragment.setArguments(bundle);
+fragmentTransaction.setCustomAnimations(R.anim.view_flipper_in,R.anim.view_flipper_a).replace(fl_content_demo.getId(), fragment).commit();
+```
+
+Fragment也可以调用**FragmentTransaction**对象的**setTransition(int transit)** 为Fragment指定标准的过场动画，transit的可选值如下：
+
+FragmentTransaction.**TRANSIT_NONE** 无动画
+
+FragmentTransaction**.TRANSIT_FRAGMENT_OPEN** 打开形式的动画
+
+FragmentTransaction.**TRANSIT_FRAGMENT_CLOSE** 关闭形式的动画
+
