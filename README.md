@@ -1974,22 +1974,55 @@ setView() 可以设置自定义布局
 
 ## Handler
 
-> Handler 发送消息(Message) 到消息队列中(MessageQueue) ，Looper 通过无限循环的方式不断向消息队列中获取新添加的消息 然后交给 Handler ，最终消息回到 Handler 中被处理
+> Handler 主要用于异步消息的处理，封装了发送消息和处理消息的方法。
 >
->
+> 操作流程：发送消息(Message) 到消息队列中(MessageQueue) ，Looper 通过无限循环的方式不断向消息队列中获取新添加的消息 然后交给 Handler ，最终消息回到 Handler 中被处理
 
-**耗时 - 线程安全**
+**为什么要使用handler？**
+
+- ANR
+
+  ![](.\img\anr.jpg)
+
+  ​	在Android上，如果你的应用程序有一段时间响应不够灵敏，系统会向用户显示一个对话框，这个对话框称作应用程序无响应（ANR：Application Not Responding）对话框。用户可以选择“等待”而让程序继续运行，也可以选择“强制关闭”。所以一个流畅的合理的应用程序中不能出现anr，而让用户每次都要处理这个对话框。因此，在程序里对响应性能的设计很重要，这样系统不会显示ANR给用户。默认情况下，在android中Activity的最长执行时间是5秒，BroadcastReceiver的最长执行时间则是10秒。
+
+- 线程安全
+
+  ​	为了避免ANR出现所以需要将耗时操作放到子线程中执行，当多条线程操作同一个资源时，就出现数据异常问题。
+
 
 **线程生命周期**
 
-**MainThread & WorkerThread**
+​	![](.\img\thread_life.png)
 
-**ANR**
+​	当线程被创建并启动以后，它既不是一启动就进入了执行状态，也不是一直处于执行状态。在线程的生命周期中，它要经过**新建**(New)、**就绪**（Runnable）、**运行**（Running）、**阻塞**(Blocked)和**死亡**(Dead)**5种状态**。
 
-#### Message
 
-- obj
-- what
+
+MainThread & WorkerThread**
+
+- MainThread
+
+  及主线程也称作UI线程，更改UI界面操作需要放到这里执行
+
+- WorkerThread
+
+  辅助线程，完成一些耗时操作。如网络请求，读写文件，运算等。
+
+
+
+#### Message 对象
+
+- what 属性： 
+  int类型，主线程用来识别子线程发来的是什么消息。
+- arg1 属性： 
+  int类型，如果传递的消息类型为int型，可以将数字赋给arg1,arg2。
+- obj 属性： 
+  Objectt类型，如果传递的消息是String或者其他，可以赋给obj。
+
+Handler发送给消息队列传递的参数。
+
+
 
 #### MessageQueue 
 
@@ -2012,8 +2045,6 @@ handler是Android给我们提供用来更新UI的一套机制，也是一套消�
 - handler.sendMessage()
 - handler.sendEmptyMessage()
 - loop()
-- 
-
 
 
 mHandler
