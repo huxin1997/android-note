@@ -3125,4 +3125,4 @@ activity布局xml：
 
 实现效果：
 
-![](.\\img\view_pager_fragment.png)
+![](.\img\view_pager_fragment.png)
