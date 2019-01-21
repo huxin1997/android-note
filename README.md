@@ -2090,6 +2090,20 @@ sendBroadcast(intent);
 
 另外intent中还有Data(数据)，Type(MIME类型)两种用法，由于基本上用不上就不在讲解。
 
+
+
+## Service
+
+**Service的生命周期图**
+
+![img](http://www.runoob.com/wp-content/uploads/2015/08/11165797.jpg)
+
+**创建一个**
+
+
+
+
+
 ## ShapeDrawable
 
 形状的Drawable咯,定义基本的几何图形,如(矩形,圆形,线条等),根元素是<shape../> 节点比较多，相关的节点如下：
