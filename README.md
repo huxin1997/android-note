@@ -371,8 +371,7 @@ tbSwitch.setChecked(true);
 
 
 ## ProgressBar
-
-#### 基本布局
+基本布局
 
 ```java
 <Switch
@@ -398,8 +397,7 @@ tbSwitch.setChecked(true);
     android:switchMinWidth="80dp"
     />
 ```
-
-#### 属性
+属性
 
 - **android:showText：**设置on/off的时候是否显示文字,boolean
 - **android:splitTrack：**是否设置一个间隙，让滑块与底部图片分隔,boolean
@@ -411,7 +409,7 @@ tbSwitch.setChecked(true);
 - **android:track：**底部的图片
 - **android:thumb：**滑块的图片
 
-#### 代码
+代码
 
 ```
 public class SwitchActivity extends AppCompatActivity {
@@ -457,7 +455,7 @@ s_buttona.setTextOn();
 s_buttona.setTextOff();
 ```
 
-#### 事件
+事件
 
 ```
 s_buttona.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -467,7 +465,7 @@ s_buttona.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(
 });
 ```
 
-#### 补充
+补充
 
 //自定义样式。
 
@@ -512,7 +510,7 @@ s_buttona.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(
 
 ## 2019/01/06-ProgressBar-进度条
 
-#### 基本布局
+基本布局
 
 ```
 <LinearLayout android:layout_width="match_parent"
@@ -586,7 +584,7 @@ s_buttona.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(
 </LinearLayout>
 ```
 
-#### 属性
+属性
 
 - android:**max**：进度条的最大值
 - android:**progress**：进度条已完成进度值
@@ -596,7 +594,7 @@ s_buttona.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(
 - android:**indeterminateDuration**：设置不精确显示进度的持续时间
 - android:**secondaryProgress**：二级进度条，类似于视频播放的一条是当前播放进度，一条是缓冲进度，前者通过progress属性进行设置！
 
-#### 代码
+代码
 
 ```
 public class ProgressBarActivity extends AppCompatActivity {
@@ -641,9 +639,9 @@ public class ProgressBarActivity extends AppCompatActivity {
 }
 ```
 
-#### 事件
+事件
 
-#### 补充
+补充
 
 由于样式比较多，在布局中将大多数的样式用了一遍。
 
@@ -680,7 +678,7 @@ public class ProgressBarActivity extends AppCompatActivity {
 
 ## 2019/01/06-SeekBar-拖动条
 
-#### 基本布局
+基本布局
 
 ```
   <LinearLayout android:layout_width="match_parent"
@@ -717,7 +715,7 @@ public class ProgressBarActivity extends AppCompatActivity {
   </LinearLayout>
 ```
 
-#### 属性
+属性
 
   **android:max**="100" //滑动条的最大值
 
@@ -727,7 +725,7 @@ public class ProgressBarActivity extends AppCompatActivity {
 
   **android:thumb** = "@mipmap/sb_icon" //滑块的drawable
 
-#### 代码
+代码
 
 ```
   public class SeekBarActivity extends AppCompatActivity {
@@ -759,7 +757,7 @@ public class ProgressBarActivity extends AppCompatActivity {
   }
 ```
 
-#### 事件
+事件
 
 ```
   说明：
@@ -785,7 +783,7 @@ public class ProgressBarActivity extends AppCompatActivity {
   });
 ```
 
-#### 补充
+补充
 
   自定义样式。
 
@@ -819,7 +817,7 @@ public class ProgressBarActivity extends AppCompatActivity {
 
 ## 2019/01/06-RatingBar-星级评分条
 
-#### 基本布局
+基本布局
 
 ```
   <LinearLayout android:layout_width="match_parent"
@@ -881,14 +879,14 @@ public class ProgressBarActivity extends AppCompatActivity {
   </LinearLayout>
 ```
 
-#### 属性
+属性
 
   **android:isIndicator**：是否用作指示，用户无法更改，默认false
   **android:numStars**：显示多少个星星，必须为整数
   **android:rating**：默认评分值，必须为浮点数
   **android:stepSize：** 评分每次增加的值，必须为浮点数
 
-#### 代码
+代码
 
 ```
   public class RatingBarActivity extends AppCompatActivity {
@@ -917,7 +915,7 @@ public class ProgressBarActivity extends AppCompatActivity {
   }
 ```
 
-#### 事件
+事件
 
 ```
   rb_show.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
@@ -928,7 +926,7 @@ public class ProgressBarActivity extends AppCompatActivity {
   });
 ```
 
-#### 补充
+补充
 
   自定义样式。
 
@@ -983,7 +981,7 @@ public class ProgressBarActivity extends AppCompatActivity {
 
 ## 2019/01/06-ScrollView-滚动条
 
-#### 基本布局
+基本布局
 
 ```
   特别注意里面只能有一个布局，如果里面直接放了一个Button那么button里面就不能放控件了，一般ScrollView里面放的都是一个布局，这样在子布局里面还能放很多其他布局。
@@ -1002,7 +1000,7 @@ public class ProgressBarActivity extends AppCompatActivity {
 
 ```
 
-#### 属性
+属性
 
   **垂直**方向滑块：android:**scrollbarThumbVertical**
   **水平**方向滑块：android:**scrollbarThumbHorizontal**
@@ -1019,7 +1017,7 @@ public class ProgressBarActivity extends AppCompatActivity {
 
   scrollview.setVerticalScrollBarEnabled(false);隐藏滑块
 
-#### 代码
+代码
 
 ```
   这是菜鸟教程的button用法。
@@ -1068,7 +1066,7 @@ public class ProgressBarActivity extends AppCompatActivity {
 
 ## 2019/01/06-DatePicker-日期选择器
 
-#### 基本布局
+基本布局
 
 ```
 <LinearLayout android:layout_width="match_parent"
@@ -1093,27 +1091,27 @@ public class ProgressBarActivity extends AppCompatActivity {
             >
         </DatePicker>
 <View
-​    android:layout_width="1dp"
-​    android:layout_height="match_parent"
-​    android:background="#ff0000"
-​    >
+    android:layout_width="1dp"
+    android:layout_height="match_parent"
+    android:background="#ff0000"
+    >
 </View>
-​        <DatePicker
-​            android:id="@+id/dp_showa"
-​            android:layout_weight="1"
-​            style="@android:style/Widget.DatePicker"
-​            android:layout_width="wrap_content"
-​            android:layout_height="wrap_content"
-​            android:spinnersShown="true"
-​            android:endYear="2099"
-​            >
-​        </DatePicker>
-​    </LinearLayout>
+        <DatePicker
+            android:id="@+id/dp_showa"
+            android:layout_weight="1"
+            style="@android:style/Widget.DatePicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:spinnersShown="true"
+            android:endYear="2099"
+            >
+        </DatePicker>
+    </LinearLayout>
 </LinearLayout>
 
 ```
 
-#### 属性
+属性
 
 - **android:calendarTextColor** ： 日历列表的文本的颜色
 - **android:calendarViewShown**：是否显示日历视图
@@ -1133,7 +1131,7 @@ public class ProgressBarActivity extends AppCompatActivity {
 - **android:yearListItemTextAppearance**：列表的文本出现在列表中。
 - **android:yearListSelectorColor**：年列表选择的颜色
 
-#### 代码
+代码
 
 ```
 public class DatePickerActivity extends AppCompatActivity {
@@ -1165,7 +1163,7 @@ public class DatePickerActivity extends AppCompatActivity {
 
 ```
 
-#### 事件
+事件
 
 ```
 注意一定要调用init不然会报错，在init中设置事件。
@@ -1178,7 +1176,7 @@ dp_showa.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),calendar
 
 ```
 
-#### 补充
+补充
 
 在初始化时间的时候要自己先new一个Calendar对象然后通过calendar.get(Calendar.YEAR)来获取当前年份，月份和天数也是相同的方法。
 
@@ -1188,7 +1186,7 @@ dp_showa.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),calendar
 
 ## 2019/01/06-TimePicker-时间选择器
 
-#### 基本布局
+基本布局
 
 ```
 <LinearLayout xmlns:tools="http://schemas.android.com/tools"
@@ -1213,11 +1211,11 @@ dp_showa.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),calendar
 
 ```
 
-#### 属性
+属性
 
 android:timePickerMode：组件外观，同样可选值为:spinner和clock(默认)
 
-#### 代码
+代码
 
 ```
 public class TimePickerActivity extends AppCompatActivity {
@@ -1240,7 +1238,7 @@ public class TimePickerActivity extends AppCompatActivity {
 
 ```
 
-#### 事件
+事件
 
 ```
 tp_show.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
@@ -1252,13 +1250,13 @@ tp_show.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
 
 ```
 
-#### 补充
+补充
 
 TimePicker不需要初始化，只有DatePicker需要初始化。
 
 ## 2019/01/06-CalendarView-日历视图
 
-#### 基本布局
+基本布局
 
 ```
 <LinearLayout android:layout_width="match_parent"
@@ -1282,14 +1280,14 @@ TimePicker不需要初始化，只有DatePicker需要初始化。
 
 ```
 
-#### 属性
+属性
 
 - **android:firstDayOfWeek**：设置一个星期的第一天
 - **android:maxDate** ：最大的日期显示在这个日历视图mm / dd / yyyy格式
 - **android:minDate**：最小的日期显示在这个日历视图mm / dd / yyyy格式
 - **android:weekDayTextAppearance**：工作日的文本出现在日历标题缩写
 
-#### 代码
+代码
 
 ```
 public class CalendarActivity extends AppCompatActivity {
@@ -1313,7 +1311,7 @@ public class CalendarActivity extends AppCompatActivity {
 
 ```
 
-#### 事件
+事件
 
 ```
 cv_date.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
@@ -1784,7 +1782,7 @@ setTitle(R.string.actdialog_title);  //XML代码中设置:android:label="@string
 
 
 
-## ProgressDialog
+## ProgressDialog的
 
 ```java
 ProgressDialog progressDialog = ProgressDialog.show(this, "提示", "加载中...");
@@ -1792,84 +1790,6 @@ ProgressDialog progressDialog = new ProgressDialog(this);
 ```
 
 第一种的方式不能更改progress样式。	
-
-
-
-## Notification
-
-**1）Notification的基本布局**
-
-![img](38056771.jpg)
-
-> 上面的组成元素依次是：
->
-> - **Icon/Photo**：大图标
-> - **Title/Name**：标题
-> - **Message**：内容信息
-> - **Timestamp**：通知时间，默认是系统发出通知的时间，也可以通过setWhen()来设置
-> - **Secondary Icon**：小图标
-> - **内容文字**，在小图标的左手边的一个文字
-
-
-
-**2.Notification的基本使用流程**
-
-> 状态通知栏主要涉及到2个类：Notification 和NotificationManager
->
-> **Notification**：通知信息类，它里面对应了通知栏的各个属性
->
-> **NotificationManager**：是状态栏通知的管理类，负责发通知、清除通知等操作。
->
-> 使用的基本流程：
->
-> - **Step 1.** 获得NotificationManager对象： NotificationManager mNManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-> - **Step 2.** 创建一个通知栏的Builder构造类： Notification.Builder mBuilder = new Notification.Builder(this);
-> - **Step 3.** 对Builder进行相关的设置，比如标题，内容，图标，动作等！
-> - **Step 4.**调用Builder的build()方法为notification赋值
-> - **Step 5**.调用NotificationManager的notify()方法发送通知！
-> - **PS:**另外我们还可以调用NotificationManager的cancel()方法取消通知
-
-
-
-**代码方面**
-
-- **setContentTitle**(CharSequence)：设置标题
-- **setContentText**(CharSequence)：设置内容
-- **setSubText**(CharSequence)：设置内容下面一小行的文字
-- **setTicker**(CharSequence)：设置收到通知时在顶部显示的文字信息
-- **setWhen**(long)：设置通知时间，一般设置的是收到通知时的System.currentTimeMillis()
-- **setSmallIcon**(int)：设置右下角的小图标，在接收到通知的时候顶部也会显示这个小图标
-- **setLargeIcon**(Bitmap)：设置左边的大图标
-- **setAutoCancel**(boolean)：用户点击Notification点击面板后是否让通知取消(默认不取消)
-- **setDefaults**(int)：向通知添加声音、闪灯和振动效果的最简单、 使用默认（defaults）属性，可以组合多个属性，
-  **Notification.DEFAULT_VIBRATE**(添加默认震动提醒)；
-  **Notification.DEFAULT_SOUND**(添加默认声音提醒)；
-  **Notification.DEFAULT_LIGHTS**(添加默认三色灯提醒)
-  **Notification.DEFAULT_ALL**(添加默认以上3种全部提醒)
-- **setVibrate**(long[])：设置振动方式，比如：
-  setVibrate(new long[] {0,300,500,700});延迟0ms，然后振动300ms，在延迟500ms， 接着再振动700ms，关于Vibrate用法后面会讲解！
-- **setContentIntent**(PendingIntent)：PendingIntent和Intent略有不同，它可以设置执行次数， 主要用于远程服务通信、闹铃、通知、启动器、短信中，在一般情况下用的比较少。比如这里通过 Pending启动Activity：getActivity(Context, int, Intent, int)，当然还可以启动Service或者Broadcast PendingIntent的位标识符(第四个参数)：
-  **FLAG_ONE_SHOT** 表示返回的PendingIntent仅能执行一次，执行完后自动取消
-  **FLAG_NO_CREATE** 表示如果描述的PendingIntent不存在，并不创建相应的PendingIntent，而是返回NULL
-  **FLAG_CANCEL_CURRENT** 表示相应的PendingIntent已经存在，则取消前者，然后创建新的PendingIntent， 这个有利于数据保持为最新的，可以用于即时通信的通信场景
-  **FLAG_UPDATE_CURRENT** 表示更新的PendingIntent
-  使用示例：
-
-
-
-## AlertDialog
-
-**1.基本使用流程**
-
-> - **Step 1**：创建**AlertDialog.Builder**对象；
-> - **Step 2**：调用**setIcon()**设置图标，**setTitle()**或**setCustomTitle()**设置标题；
-> - **Step 3**：设置对话框的内容：**setMessage()**还有其他方法来指定显示的内容；
-> - **Step 4**：调用**setPositive/Negative/NeutralButton()**设置：确定，取消，中立按钮；
-> - **Step 5**：调用**create()**方法创建这个对象，再调用**show()**方法将对话框显示出来；
-
-
-
-setView() 可以设置自定义布局
 
 
 
@@ -2062,7 +1982,7 @@ sendBroadcast(intent);
 
 ##### 隐式Intent详解
 
-![](C:/Users/caidonglun/Desktop/img/intent_action.jpg)
+![](./img/intent_action.jpg)
 
 #### Intent的七个属性
 
@@ -2074,15 +1994,15 @@ sendBroadcast(intent);
 
 ![](./img/action.jpg)
 
-3）Category(类别)
+##### 3）Category(类别)
 
 ![](./img/category.jpg)
 
-##### 5）Extras(额外)
+##### 4）Extras(额外)
 
 ![](./img/Extras.jpg)
 
-##### 6）Flags(标记)
+##### 5）Flags(标记)
 
 ![](./img/Flags.jpg)
 
@@ -2172,11 +2092,6 @@ startService(intent); //intent = new Intent(MainActivity.this,Service.class)
 
 - ~ **visible**:设置是否可见
 - ~ **shape**:形状,可选:rectangle(矩形,包括正方形),oval(椭圆,包括圆),line(线段),ring(环形)
-- ~ **innerRadiusRatio**:当shape为ring才有效,表示环内半径所占半径的比率,如果设置了innerRadius, 他会被忽略
-- ~ **innerRadius**:当shape为ring才有效,表示环的内半径的尺寸
-- ~ **thicknessRatio**:当shape为ring才有效,表环厚度占半径的比率
-- ~ **thickness**:当shape为ring才有效,表示环的厚度,即外半径与内半径的差
-- ~ **useLevel**:当shape为ring才有效,表示是否允许根据level来显示环的一部分
 
 ②<**size**>:
 
@@ -2184,13 +2099,13 @@ startService(intent); //intent = new Intent(MainActivity.this,Service.class)
 
 - ~ **height**:图形形状高度
 
-  ③<**gradient**>：后面GradientDrawable再讲~
+③<**gradient**>：后面GradientDrawable再讲~
 
-  ④<**solid**>
+④<**solid**>
 
 - ~ **color**:背景填充色,设置solid后会覆盖gradient设置的所有效果!!!!!!
 
-  ⑤<**stroke**>
+⑤<**stroke**>
 
 - ~ **width**:边框的宽度
 
@@ -2200,17 +2115,326 @@ startService(intent); //intent = new Intent(MainActivity.this,Service.class)
 
 - ~ **dashGap**:边框的虚线段的间距
 
-  ⑥<**conner**>
+⑥<**conner**>
 
 - ~ **radius**:圆角半径,适用于上下左右四个角
 
 - ~ **topLeftRadius**,**topRightRadius**,**BottomLeftRadius**,**tBottomRightRadius**: 依次是左上,右上,左下,右下的圆角值,按自己需要设置!
 
-  ⑦<**padding**>
+⑦<**padding**>
 
 - left,top,right,bottm:依次是左上右下方向上的边距!
 
+可实现效果：
+
+![img](http://www.runoob.com/wp-content/uploads/2015/10/36413391.jpg)
 
 
 
+## GradientDrawable
 
+一个具有渐变区域的Drawable，可以实现线性渐变,发散渐变和平铺渐变效果 核心节点：<**gradient**/>，有如下可选属性：
+
+- **startColor**:渐变的起始颜色
+- **centerColor**:渐变的中间颜色
+- **endColor**:渐变的结束颜色
+- **type**:渐变类型,可选(**linear**,**radial**,**sweep**), **线性渐变**(可设置渐变角度),发散渐变(中间向四周发散),平铺渐变
+- **centerX**:渐变中间亚瑟的x坐标,取值范围为:0~1
+- **centerY**:渐变中间颜色的Y坐标,取值范围为:0~1
+- **angle**:只有linear类型的渐变才有效,表示渐变角度,必须为45的倍数哦
+- **gradientRadius**:只有radial和sweep类型的渐变才有效,radial必须设置,表示渐变效果的半径
+- **useLevel**:判断是否根据level绘制渐变效果
+
+可实现效果：
+
+![img](http://www.runoob.com/wp-content/uploads/2015/10/13354775.jpg)
+
+先在drawable下创建三个渐变xml文件：
+
+**(线性渐变)gradient_linear.xml**:
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<shape
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval" >
+    <gradient
+        android:angle="90"
+        android:centerColor="#FFEB82"
+        android:endColor="#35B2DE"
+        android:startColor="#DEACAB" />
+
+    <stroke
+        android:dashGap="5dip"
+        android:dashWidth="4dip"
+        android:width="3dip"
+        android:color="#fff" />
+</shape>
+```
+
+**(发散渐变)gradient_radial.xml**:
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:innerRadius="0dip"
+    android:shape="ring"
+    android:thickness="70dip"
+    android:useLevel="false" >
+
+    <gradient
+        android:centerColor="#FFEB82"
+        android:endColor="#35B2DE"
+        android:gradientRadius="70"
+        android:startColor="#DEACAB"
+        android:type="radial"
+        android:useLevel="false" />
+
+</shape> 
+```
+
+**(平铺渐变)gradient_sweep.xml**:
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:innerRadiusRatio="8"
+    android:shape="ring"
+    android:thicknessRatio="3"
+    android:useLevel="false" >
+
+    <gradient
+        android:centerColor="#FFEB82"
+        android:endColor="#35B2DE"
+        android:startColor="#DEACAB"
+        android:type="sweep"
+        android:useLevel="false" />
+
+</shape> 
+```
+
+调用三个drawable的**activity_main.xml**:
+
+```
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/txtShow1"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:background="@drawable/gradient_linear" />
+
+    <TextView
+        android:id="@+id/txtShow2"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:background="@drawable/gradient_radial" />
+
+    <TextView
+        android:id="@+id/txtShow3"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@drawable/gradient_sweep" />
+
+</LinearLayout>  
+```
+
+## BitmapDrawable
+
+对Bitmap的一种封装,可以设置它包装的bitmap在BitmapDrawable区域中的绘制方式,有: 平铺填充,拉伸填或保持图片原始大小!以<**bitmap**>为根节点! 可选属性如下：
+
+- **src**:图片资源~
+- **antialias**:是否支持抗锯齿
+- **filter**:是否支持位图过滤,支持的话可以是图批判显示时比较光滑
+- **dither**:是否对位图进行抖动处理
+- **gravity**:若位图比容器小,可以设置位图在容器中的相对位置
+- **tileMode**:指定图片平铺填充容器的模式,设置这个的话,gravity属性会被忽略,有以下可选值: **disabled**(整个图案拉伸平铺),**clamp**(原图大小), **repeat**(平铺),**mirror**(镜像平铺)
+
+对应的效果图：
+
+![img](http://www.runoob.com/wp-content/uploads/2015/10/98559776.jpg)
+
+**①XML定义BitmapDrawable**:
+
+```
+<?xml version="1.0" encoding="utf-8"?>  
+<bitmap xmlns:android="http://schemas.android.com/apk/res/android"  
+    android:dither="true"  
+    android:src="@drawable/ic_launcher"  
+    android:tileMode="mirror" />
+```
+
+**②实现相同效果的Java代码**:
+
+```
+BitmapDrawable bitDrawable = new BitmapDrawable(bitmap);  
+bitDrawable.setDither(true);  
+bitDrawable.setTileModeXY(TileMode.MIRROR,TileMode.MIRROR);  
+```
+
+## ClipDrawable
+
+> Clip可以译为剪的意思,我们可以把ClipDrawable理解为从位图上剪下一个部分; Android中的进度条就是使用ClipDrawable来实现的,他根据设置level的值来决定剪切 区域的大小,根节点是<**clip**>
+
+**相关属性如下**：
+
+> - **clipOrietntion**:设置剪切的方向,可以设置水平和竖直2个方向
+> - **gravity**:从那个位置开始裁剪
+> - **drawable**:引用的drawable资源,为空的话需要有一个Drawable类型的子节点 ps:这个Drawable类型的子节点:就是在<clip里>加上这样的语句: 这样...
+
+**使用示例**：
+
+核心：通过代码修改ClipDrawable的level的值！Level的值是0~10000！
+
+**运行效果图**：
+
+![img](http://www.runoob.com/wp-content/uploads/2015/10/44267367.jpg)
+
+**实现代码**：
+
+在res/drawable创建一个TransitionDrawable的xml文件
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<transition xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:drawable="@mipmap/ic_bg_meizi1"/>
+    <item android:drawable="@mipmap/ic_bg_meizi2"/>
+</transition>
+```
+
+然后布局文件里加个ImageView，然后把src设置成上面的这个drawable 然后MainActivity.java内容如下：
+
+```
+public class MainActivity extends AppCompatActivity {
+    private ImageView img_show;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        img_show = (ImageView) findViewById(R.id.img_show);
+        TransitionDrawable td = (TransitionDrawable) img_show.getDrawable();
+        td.startTransition(3000);
+        //你可以可以反过来播放，使用reverseTransition即可~
+        //td.reverseTransition(3000);
+    }
+}
+```
+
+## LayerDrawable
+
+> 层图形对象，包含一个Drawable数组，然后按照数组对应的顺序来绘制他们，索引 值最大的Drawable会被绘制在最上层！虽然这些Drawable会有交叉或者重叠的区域，但 他们位于不同的层，所以并不会相互影响，以<**layer-list**>作为根节点！
+
+**相关属性如下**：
+
+> - **drawable**:引用的位图资源,如果为空徐璈有一个Drawable类型的子节点
+> - **left**:层相对于容器的左边距
+> - **right**:层相对于容器的右边距
+> - **top**:层相对于容器的上边距
+> - **bottom**:层相对于容器的下边距
+> - **id**:层的id
+
+**使用示例**：
+
+**运行效果图**：
+
+![img](http://www.runoob.com/wp-content/uploads/2015/10/33659494.jpg)
+
+**代码实现**：
+
+非常简单，结合前面学习的shapeDrawable和ClipDrawable：
+
+**layerList_one.xml**
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@android:id/background">
+        <shape android:shape="rectangle">
+            <solid android:color="#C2C2C1" />
+            <corners android:radius="50dp" />
+        </shape>
+    </item>
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape android:shape="rectangle">
+                <solid android:color="#BCDA73" />
+                <corners android:radius="50dp" />
+            </shape>
+        </clip>
+    </item>
+</layer-list> 
+```
+
+然后在布局文件中添加一个Seekbar，内容如下：
+
+```
+<SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminateDrawable="@android:drawable/progress_indeterminate_horizontal"
+        android:indeterminateOnly="false"
+        android:maxHeight="10dp"
+        android:minHeight="5dp"
+        android:progressDrawable="@drawable/layerlist_one"
+        android:thumb="@drawable/shape_slider" />
+```
+
+## StateListDrawable
+
+> 好了终于迎来了最后一个drawable：StateListDrawable，这个名字看上去模式，其实我们 以前就用到了，还记得为按钮设置不同状态的drawable的<**selctor**>吗？没错，用到的 就是这个StateListDrawable！
+
+**可供设置的属性如下**：
+
+> - **drawable**:引用的Drawable位图,我们可以把他放到最前面,就表示组件的正常状态~
+> - **state_focused**:是否获得焦点
+> - **state_window_focused**:是否获得窗口焦点
+> - **state_enabled**:控件是否可用
+> - **state_checkable**:控件可否被勾选,eg:checkbox
+> - **state_checked**:控件是否被勾选
+> - **state_selected**:控件是否被选择,针对有滚轮的情况
+> - **state_pressed**:控件是否被按下
+> - **state_active**:控件是否处于活动状态,eg:slidingTab
+> - **state_single**:控件包含多个子控件时,确定是否只显示一个子控件
+> - **state_first**:控件包含多个子控件时,确定第一个子控件是否处于显示状态
+> - **state_middle**:控件包含多个子控件时,确定中间一个子控件是否处于显示状态
+> - **state_last**:控件包含多个子控件时,确定最后一个子控件是否处于显示状态
+
+**使用示例**：
+
+那就来写个简单的圆角按钮吧！
+
+**运行效果图**：
+
+![img](http://www.runoob.com/wp-content/uploads/2015/10/32015507.jpg)
+
+**代码实现**：
+
+那就先通过shapeDrawable来画两个圆角矩形，只是颜色不一样而已：
+
+**shape_btn_normal.xml**：
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="#DD788A"/>
+    <corners android:radius="5dp"/>
+    <padding android:top="2dp" android:bottom="2dp"/>
+</shape>
+```
+
+接着我们来写个selctor：**selctor_btn.xml**：
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true" android:drawable="@drawable/shape_btn_pressed"/>
+    <item android:drawable="@drawable/shape_btn_normal"/>
+</selector>
+```
+
+然后按钮设置android:background="@drawable/selctor_btn"就可以了~ 你可以根据自己需求改成矩形或者椭圆，圆形等！
