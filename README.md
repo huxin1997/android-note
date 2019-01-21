@@ -607,20 +607,20 @@ ProgressDialog progressDialog = new ProgressDialog(this);
 >
 >
 
-#### 耗时 - 线程安全
+**耗时 - 线程安全**
 
-#### 线程生命周期
+**线程生命周期**
 
-#### MainThread & WorkerThread
+**MainThread & WorkerThread**
 
-#### ANR
+**ANR**
 
 #### Message
 
 - obj
 - what
 
-#### MessageQueue （消息队列）
+#### MessageQueue 
 
 - 容器
 - 添加 queue.enqueueMessage(msg, uptimeMillis)
@@ -656,24 +656,14 @@ mHandler
 5. Looper Message MessageQueue
 6. 练习
 
-
-
-
-
-
-
-##### Hnadler 常用方法
+**Hnadler** 常用方法
 
 1. sendMessage(msg)  
 2. sendEmptyMessageDelayed(what , 0)
 3. sendEmptyMessage(what)
 4. post(runnable)
 
-
-
-
-
-##### Activity 方法
+**Activity** 方法
 
 runOnUIThread
 
