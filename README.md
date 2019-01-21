@@ -405,7 +405,7 @@ dividerHeight：divider的高度。
 
 预览图如下：
 
-![546657356751](img\listview_review.png)
+![546657356751](.\img\listview_review.png)
 
 使用xml配置ListView的数据
 
