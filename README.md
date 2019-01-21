@@ -540,7 +540,7 @@ entries：填充res里的values里已经配置好的固定数据
 
 LinearLayout是一个控件容器，用于将容器内的子元素按照指定的方向(水平或者垂直)线性排列。LinearLayout 继承自ViewGroup，呈线性显示它的子元素，水平排列一行或者垂直显示一列Views。
 
-##### orientation
+**orientation**
 
 ```xml
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -562,9 +562,7 @@ LinearLayout是一个控件容器，用于将容器内的子元素按照指定�
 
 ​						![](F:\资料文档\笔记\Android笔记\img\horizontal.jpg)
 
-
-
-##### layout_width & layout_height
+**layout_width & layout_height**
 
 该属性值分为四种
 
@@ -573,9 +571,7 @@ LinearLayout是一个控件容器，用于将容器内的子元素按照指定�
 - ~~fill_parent~~
 - 固定值 dp
 
-
-
-##### gravity (容器里子控件的对齐方向） 
+**gravity** (容器里子控件的对齐方向） 
 
 常用7种属性值
 
@@ -587,51 +583,31 @@ LinearLayout是一个控件容器，用于将容器内的子元素按照指定�
 - center_horizontal 水平居中
 - center_vertical 垂直居中
 
-##### ****layout_gravity
+**layout_gravity**
 
 控件在父容器的对其方式
 
-
-
-##### weight(布局权重）
+**weight**(布局权重）
 
 用于线性布局种的控件分配剩余空间比例权重。
 
 ![](F:\资料文档\笔记\Android笔记\img\weight.jpg)
 
-
-
-
-
-
-
-
-
-
-
-
-
-##### 嵌套使用	
+**嵌套使用**	
 
 ![](F:\资料文档\笔记\Android笔记\img\qiantao.jpg)
 
-##### Margin & padding
+**Margin & padding**
 
 ![](F:\资料文档\笔记\Android笔记\img\margin_padding.jpg)
 
-
-
-##### Divider 
+**Divider** 
 
 - divider
 - showDividers
 - dividerPadding
 
-
-
-
-
-##### 练习
+**练习**
 
 ![](F:\资料文档\笔记\Android笔记\img\login.jpg)
 
@@ -639,9 +615,7 @@ LinearLayout是一个控件容器，用于将容器内的子元素按照指定�
 
 #### RelativeLayout
 
-![](F:\资料文档\笔记\Android笔记\img\relative_layout.jpg)
-
-##### 梅花布局
+![](.\img\relative_layout.jpg)梅花布局
 
 ![
 
@@ -819,9 +793,18 @@ setTitle(R.string.actdialog_title);  //XML代码中设置:android:label="@string
 
 ## ExpandableListView
 
-- ExpandableAdapter 存放group以及group的子元素
+- **ExpandableAdapter** 存放group以及group的子元素
 
-## ProgressDialog
+- **android:childDivider**：指定各组内子类表项之间的分隔条，图片不会完全显示， 分离子列表项的是一条直线
+
+- **android:childIndicator**：显示在子列表旁边的Drawable对象，可以是一个图像
+
+- **android:groupIndicator**：显示在组列表旁边的Drawable对象，可以是一个图像
+
+
+
+
+## ProgressDialog的
 
 ```java
 ProgressDialog progressDialog = ProgressDialog.show(this, "提示", "加载中...");
@@ -846,20 +829,20 @@ ProgressDialog progressDialog = new ProgressDialog(this);
 >
 >
 
-#### 耗时 - 线程安全
+**耗时 - 线程安全**
 
-#### 线程生命周期
+**线程生命周期**
 
-#### MainThread & WorkerThread
+**MainThread & WorkerThread**
 
-#### ANR
+**ANR**
 
 #### Message
 
 - obj
 - what
 
-#### MessageQueue （消息队列）
+#### MessageQueue 
 
 - 容器
 - 添加 queue.enqueueMessage(msg, uptimeMillis)
@@ -895,24 +878,14 @@ mHandler
 5. Looper Message MessageQueue
 6. 练习
 
-
-
-
-
-
-
-##### Hnadler 常用方法
+**Hnadler** 常用方法
 
 1. sendMessage(msg)  
 2. sendEmptyMessageDelayed(what , 0)
 3. sendEmptyMessage(what)
 4. post(runnable)
 
-
-
-
-
-##### Activity 方法
+**Activity** 方法
 
 runOnUIThread
 
