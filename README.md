@@ -350,29 +350,94 @@ tbSwitch.setChecked(true);
 
 ![adpater](./img/adapter_hierarchy.jpg)
 
-**ArrayAdapter**
-
-> 支持泛型操作，最简单的adapter
-
-​	当需要设置选择类型时候，必须设置ListView的setChoiceMode
-
 ```java
-listView.setChoiceMode(AbsListView.CHOICE_MODE_MULTIPLE);
+//        第一种ArrayAdapter，只能设置单个控件的数据
+        String[] strings = {"张三","张三2","张三12","张三112","张三1112","张三21111"};
+        lv_1.setAdapter(new ArrayAdapter<>(this,R.layout.item_list,R.id.tv_1,strings));
+
+//        第二种SimpleAdapter，可以设置多个控件的数据了
+        //设置从底部往上显示
+        lv_1.setStackFromBottom(true);
+        final List<Map<String,Object>> list=new ArrayList<>();
+        for (int i=0;i<4;i++){
+            final int finalI = i;
+            list.add(new HashMap<String, Object>() {
+                {
+                    put("name","张三"+ finalI);
+                    put("imgId",R.mipmap.ic_launcher_round);
+                }
+            });
+        }
+        SimpleAdapter simpleAdapter = new SimpleAdapter(this, list,
+                R.layout.item_list, new String[]{"name", "imgId"}, new int[]{R.id.tv_1, R.id.iv_1});
+        lv_1.setAdapter(simpleAdapter);
+
+//        第三种BaseAdapter（重点使用）
+        BaseAdapter baseAdapter=new BaseAdapter(){
+
+            @Override
+            public int getCount() {
+                return list.size();
+            }
+
+            @Override
+            public Object getItem(int position) {
+                return list.get(position);
+            }
+
+            @Override
+            public long getItemId(int position) {
+                return position;
+            }
+
+            @Override
+            public View getView(final int position, View convertView, ViewGroup parent) {
+                if(convertView==null){
+                    convertView=LayoutInflater.from(MainActivity01.this).inflate(R.layout.item_list,parent,false);
+                }
+                //这里的每次find性能不考虑
+                TextView tv_1 = convertView.findViewById(R.id.tv_1);
+                ImageView iv_1 = convertView.findViewById(R.id.iv_1);
+                tv_1.setText((String) list.get(position).get("name"));
+                iv_1.setImageResource((int) list.get(position).get("imgId"));
+                tv_1.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        TextView v1 = (TextView) v;
+                        System.out.println("我的名字："+v1.getText());
+                        Toast.makeText(MainActivity01.this, "我的名字："+v1.getText(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+                //添加一条数据
+                Button btn_add = convertView.findViewById(R.id.btn_add);
+                btn_add.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        list.add(new HashMap<String, Object>(){
+                            {
+                                put("name","姓名："+System.currentTimeMillis());
+                                put("imgId",R.mipmap.ic_launcher_round);
+                            }
+                        });
+                        //通知数据修改
+                        notifyDataSetChanged();
+                    }
+                });
+                //删除一条数据
+                Button btn_remove = convertView.findViewById(R.id.btn_remove);
+                btn_remove.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        list.remove(position);
+                        notifyDataSetChanged();
+                    }
+                });
+
+                return convertView;
+            }
+        };
+        lv_1.setAdapter(baseAdapter);
 ```
-
-![](.\img\listView_setchoiceMode.jpg)
-
-**SimpleAdapter**
-
-> 具有良好的扩展性,使用List<Map<String,?>> 结构存放数据。
-
-**BaseAdapter**
-
-> 抽象基类，需要自定义adapter通常继承它。
-
-- convertView
-- viewHolder
-- inflate
 
 ## ListView
 
@@ -585,13 +650,170 @@ LinearLayout是一个控件容器，用于将容器内的子元素按照指定�
 ## Spinner
 
 ```xml
-<Spinner
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:spinnerMode="dialog" <--dropdown-->
-    android:entries="@array/tool">
-</Spinner>
+    <Spinner
+        android:id="@+id/sp_1"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:dropDownSelector="@android:color/holo_blue_bright"
+        android:dropDownWidth="100dp"
+        android:spinnerMode="dialog"
+        android:prompt="@string/prompt"
+        android:popupElevation="@android:dimen/dialog_min_width_minor"
+        android:popupTheme="@style/Widget.AppCompat.Light.ActionBar"
+        />
+    <!--
+        dropDownSelector选中后颜色
+        dropDownWidth下拉框宽度,弹出框背景spinnerMode为dropdown时有效
+        spinnerMode默认为dropdown
+        prompt只有spinnerMode为dialog有效且只能设置string.xml里的资源id,不能写字符串
+    -->
 ```
+
+设置选择事件
+
+```java
+sp_1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        Toast.makeText(MySpinner.this, ""+position, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+});
+```
+
+
+
+## ViewFlipper的使用
+
+#### 使用静态导入
+
+```xml
+<ViewFlipper
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:autoStart="true"
+    android:inAnimation="@anim/in"
+    android:outAnimation="@anim/out"
+    android:flipInterval="3000">
+
+    <include layout="@layout/page_01"/>
+    <include layout="@layout/page_02"/>
+    <include layout="@layout/page_03"/>
+    <include layout="@layout/page_04"/>
+
+</ViewFlipper>
+```
+
+android:autoStart="true"表示自动开始动画。
+
+android:inAnimation="@anim/in"指定进入动画。
+
+android:outAnimation="@anim/out"指定退出动画
+
+android:flipInterval="3000"切换页面间隔时间，单位ms。
+
+创建动画配置文件首先需要在res目录自己创建anim文件夹（项目生成时默认没有）。
+
+![1546679094920](./img/viewflipper_anim.png)
+
+效果图如下：
+
+![](.\img\ViewFlipper.gif)
+
+#### 使用动态导入
+
+```java
+ViewFlipper vf_01 = findViewById(R.id.vf_01);
+vf_01.addView(LayoutInflater.from(this).inflate(R.layout.page_01,null));
+vf_01.addView(LayoutInflater.from(this).inflate(R.layout.page_02,null));
+vf_01.addView(LayoutInflater.from(this).inflate(R.layout.page_03,null));
+vf_01.addView(LayoutInflater.from(this).inflate(R.layout.page_04,null));
+```
+
+设置进入与退出动画：
+
+```java
+vf_01.setInAnimation(MainActivity.this, R.anim.in);
+vf_01.setOutAnimation(MainActivity.this, R.anim.out);
+```
+
+显示下一页：
+
+```java
+vf_01.showNext();
+```
+
+显示上一页：
+
+```java
+vf_01.showPrevious();
+```
+
+## Activity
+
+传递数据：
+
+![传递数据](http://www.runoob.com/wp-content/uploads/2015/08/7185831.jpg)
+
+双击退出：
+
+```java
+/保存点击的时间
+private long exitTime = 0;
+public boolean onKeyDown(int keyCode, KeyEvent event) {
+    if (keyCode == KeyEvent.KEYCODE_BACK) {
+        if ((System.currentTimeMillis() - exitTime) > 2000) {
+            Toast.makeText(getApplicationContext(), "再按一次退出程序",
+                    Toast.LENGTH_SHORT).show();
+            exitTime = System.currentTimeMillis();
+        } else {
+                        exit();
+                      }
+        return false;
+    }
+        return super.onKeyDown(keyCode, event);
+}
+```
+
+设置出入动画：
+
+![动画](http://www.runoob.com/wp-content/uploads/2015/08/16878455.jpg)
+
+修改AppTheme:
+
+```xml
+<style name="AppTheme" mce_bogus="1" parent="@android:style/Theme.Light">
+        <item name="android:windowAnimationStyle">@style/default_animation</item>
+        <item name="android:windowNoTitle">true</item>
+</style>
+```
+
+最后在appliction设置下：
+
+```xml
+<application
+   android:icon="@drawable/logo"
+   android:label="@string/app_name"
+   android:theme="@style/AppTheme" >
+```
+
+隐藏actionBar:
+
+```java
+requestWindowFeature(Window.FEATURE_NO_TITLE); 
+//设置左上角小图标
+requestWindowFeature(Window.FEATURE_LEFT_ICON);
+setContentView(R.layout.main);
+getWindow().setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, android.R.drawable.ic_lion_icon);
+//设置文字:
+setTitle(R.string.actdialog_title);  //XML代码中设置:android:label="@string/activity_dialog"
+```
+
+
 
 
 
