@@ -1,8 +1,143 @@
-# 基础控件
+基础控件
 
 ## TextView
 
-测试
+1、基本布局
+
+```xml
+<TextView
+    android:id="@+id/tv_title"
+    android:layout_width="match_parent"
+    android:text="这是一段文字"
+    android:layout_height="wrap_content" />
+```
+
+2、属性
+
+1 对齐
+
+**android:gravity="center" <!-- 控件内对齐 -->**
+
+常用：center 居中
+​	 center_horizontal 水平居中
+​	 center_vertical 垂直居中
+​	 left 左对齐
+​	 rigth 右对齐
+​	 top 顶部对齐
+​	 bottom 底部对齐
+​	 start 左对齐的替代形式
+​	 end 右对齐的替代形式
+
+
+![](G:\移动互联\解题\Annotation 2019-01-02 144952.jpg)
+
+2 显示文字
+
+**android:text="这是一段文字" <!-- 显示基础文字 -->**
+
+**android:hint="这是一段默认文字" <!-- 显示默认文字 -->**
+
+```xml
+ <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="这是一段文字"
+        android:hint="这是一段默认文字"
+        />
+```
+
+![](G:\移动互联\解题\Annotation 2019-01-02 152137.jpg)
+
+3 颜色
+
+**android:textColor="#EA5246" <!--字体颜色-->**
+
+4 字体样式
+
+**android:textStyle="bold|italic" <!--字体加粗并斜体-->**
+
+**android:textSize="22sp" <!--字体大小-->**
+
+5 背景
+
+**android:background="#ddd" <!--背景颜色可以是个drawable-->**
+
+**android:background="@drawable/border"**
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <stroke android:color="#f00" android:width="1dp"></stroke>
+    <solid android:color="#96ff96"></solid>
+    <corners android:radius="5dp"></corners>
+</shape>
+```
+
+6 格式
+
+**android:singleLine="true" 或者android:maxLines="1" 设置一行显示**
+
+**android:ellipsize="" 溢出显示方式**
+
+可以有5种值：
+
+| Constant | Value | Description  |
+| -------- | ----- | ------------ |
+| end      | 3     | 省略结束     |
+| marquee  | 4     | 跑！马！灯！ |
+| middle   | 2     | 省略中间     |
+| none     | 0     | 默认         |
+| start    | 1     | 省略开头     |
+
+最常见是省略后面的文字和跑马灯
+
+
+
+## EditText
+1 基本布局
+
+```xml
+<EditText
+    android:id="@+id/et_input"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:inputType="text"
+    android:hint="这是个输入框"
+    />
+```
+
+![1546425557527](1546425557527.png)
+
+大多数方法和TextView相同
+
+inputType 输入类型：
+
+https://developer.android.google.cn/reference/android/R.styleable#TextView_inputType
+
+几个常用：
+
+- number 数字（只能输数字时可以用，比如允许输入1-999可以设置输入类型为数字并限制长度为3，这样在代码中就只需做非空和非0判断）
+- text 文本
+- textPassword 文本密码
+- numberPassword 数字密码
+- phone 号码
+
+点击全选文字
+
+```java
+android:selectAllOnFocus="true" //点击时全选文字
+```
+
+2 代码
+
+大部分相同，获取文字时注意类型！
+
+**获取输入文本：getText()** 返回是个`Editable`对象，toString()即可返回正常文本
+
+**代码输入文本：setText()**
+
+​	
 
 ## ImageView
 
@@ -12,6 +147,65 @@
 - background 会拉伸，src 根据图片大小填充
 - src 和 background 可以同时使用
 - 代码设置图片
+
+- android:adjustViewBounds="true" 缩放跟随宽高等比缩放
+- android:maxHeight="" 最大的高度
+- android:maxWidth="" 最大的宽度
+
+第一个属性如果在宽高不对等的情况下，会优先缩放到最小的那一个值，其他部分留白。
+
+有个专门属性控制缩放：
+
+**android:scaleType**
+
+| Constant     | Value | Description                                                |
+| ------------ | ----- | ---------------------------------------------------------- |
+| center       | 5     | 居中显示，不做任何缩放                                     |
+| centerCrop   | 6     | 拉伸缩放，直到覆盖整个控件大小，并居中，可能图像出现不完整 |
+| centerInside | 7     | 缩放，确保图像显示完整，居中显示                           |
+| fitCenter    | 3     | 中心缩放，对齐中心                                         |
+| fitEnd       | 4     | 局右缩放，对齐右边                                         |
+| fitStart     | 2     | 局左缩放，对齐左边                                         |
+| fitXY        | 1     | 拉伸缩放，填充宽高                                         |
+| matrix       | 0     | 对齐左上角，不做缩放                                       |
+
+当添加了上面这个属性后，adjustViewBounds属性无效！
+
+
+
+## Button
+
+1 基本布局
+
+```xml
+<Button
+    android:id="@+id/btn_one_button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Button"
+    />
+```
+
+text中的英文字符都会强制变为大写
+
+Button 继承自TextView，所以TextView有的属性，Button也有。
+
+2 代码
+
+设置点击事件
+
+```java
+btnOneB.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        ...
+    }
+});
+```
+
+
+
+
 
 ## RadioButton 
 
@@ -33,9 +227,47 @@ sexGroup.setOnCheckedChangeListener((group, checkedId) ->{
 
 ![1546417839052](./img/radiobutton.png)
 
+
+
 ## CheckBox 
 
 - setOnCheckedChangeListener()
+
+  1 布局
+
+  与RadioButton继承关系一样，同样可以使用Button或TextView的所有属性
+
+  ```xml
+  <CheckBox
+      android:id="@+id/cb_check_one"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="选我第一份"
+      />
+  ```
+
+  这个就不能结合RadioGroup的事件来使用了，最好是在一堆多选框中使用LinearLayout包含使用。
+
+  2 代码
+
+  继承自Button和TextView，所以方法都类似，主要使用一个Getter和一个状态改变事件
+
+  ```java
+  checkBoxOne.isChecked();//是否被勾选
+  ```
+
+  ```java
+  checkBoxOne.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+      @Override
+      public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+          ...
+      }
+  });
+  /*
+  	第一个事件发生的按钮，第二个参数是否被勾选
+  */
+  ```
+
 
 
 ## ToggleButton & Switch
@@ -44,7 +276,57 @@ sexGroup.setOnCheckedChangeListener((group, checkedId) ->{
 - textOff
 - setOnCheckedChangeListener()
 
+<<<<<<< HEAD
 ## 2019/01/06-Switch-开关
+=======
+1 布局
+
+还是和上面的RadioButton、CheckBox一样.
+
+```xml
+<ToggleButton
+    android:id="@+id/tb_switch"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:disabledAlpha="1.0"
+    android:textOn="我开着"
+    android:textOff="我关着"
+    />
+```
+
+两个属性：textOn和textOff分别代表激活时显示的字和没激活的字，此时设置text属性就没有用了。这两个属性代替了text属性。所以一定要设置。
+
+另外可以设置drawable背景，在状态不同时改变背景。
+
+android:disabledAlpha 按钮在禁用时的透明度
+
+2 代码
+
+按钮状态改变事件
+
+```java
+tbSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+        if(b){
+            Toast.makeText(MainActivity.this, "开关：on", Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(MainActivity.this, "开关：off",Toast.LENGTH_SHORT).show();
+        }
+    }
+});
+```
+
+设置按钮状态
+
+```java
+tbSwitch.setChecked(true);
+```
+
+
+
+## ProgressBar
+>>>>>>> 1434f47a12f6d3270f1847afb8097a12f268d6ee
 
 #### 基本布局
 
@@ -989,7 +1271,7 @@ cv_date.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
 
 ```
 
-#### 补充
+
 
 ## Adapter
 
@@ -1032,6 +1314,57 @@ listView 复用原理：每一个item显示时都需要调用adapter的getView�
 ​	如果使用了recycler缓存机制，新加载的item由于是复用之间隐藏的item将会出现控件属性还是之间item的，造成状态混乱。
 
 ​	![](F:\资料文档\笔记\Android笔记\img\listview_checkbox.gif)
+
+常用属性：
+
+​```xml
+<ListView
+        android:id="@+id/lv_1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@android:color/holo_blue_bright"
+        android:dividerHeight="2dp"/>
+```
+
+divider：列表项之间绘制的可绘制的颜色。
+
+dividerHeight：divider的高度。
+
+预览图如下：
+
+![546657356751](.\img\listview_review.png)
+
+使用xml配置ListView的数据
+
+entries：填充res里的values里已经配置好的固定数据
+
+```xml
+<ListView
+    android:id="@+id/lv_0"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:entries="@array/listview_data"/>
+```
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="listview_data">
+        <item>这是xml配置的数据01</item>
+        <item>这是xml配置的数据012</item>
+        <item>这是xml配置的数据013</item>
+        <item>这是xml配置的数据014</item>
+        <item>这是xml配置的数据015</item>
+        <item>这是xml配置的数据016</item>
+        <item>这是xml配置的数据017</item>
+        <item>这是xml配置的数据018</item>
+    </string-array>
+</resources>
+```
+
+运行结果如下：
+
+![1546658930283](C:\Users\baikunlong\AppData\Roaming\Typora\typora-user-images\1546658930283.png)
 
 
 
@@ -1178,7 +1511,7 @@ LinearLayout是一个控件容器，用于将容器内的子元素按照指定�
 
 ## Spinner
 
-```xml
+​```xml
 <Spinner
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -1473,3 +1806,97 @@ intent.putExtras(bundle);
 sendBroadcast(intent);
 ```
 
+## Intent基本使用
+
+#### 基本常用方法
+
+- **startActivity**(Intent)/**startActivityForResult**(Intent)：来启动一个Activity
+- **startService**(Intent)/**bindService**(Intent)：来启动一个Service
+- **sendBroadcast**：发送广播到指定BroadcastReceiver
+
+#### 显式Intent与隐式Intent的区别
+
+- **显式Intent**：通过组件名指定启动的目标组件,比如startActivity(new Intent(A.this,B.class)); 每次启动的组件只有一个。
+- **隐式Intent**:不指定组件名,而指定Intent的Action,Data,或Category,当我们启动组件时, 会去匹配AndroidManifest.xml相关组件的Intent-filter,逐一匹配出满足属性的组件,当不止一个满足时, 会弹出一个让我们选择启动哪个的对话框。
+
+##### 隐式Intent详解
+
+![](.\img\intent_action.jpg)
+
+#### Intent的七个属性
+
+##### 1) ComponentName(组件名称)
+
+![](./\img\ComponentName.png)
+
+##### 2 Action(动作)
+
+![](.\img\action.jpg)
+
+3）Category(类别)
+
+![](.\img\category.jpg)
+
+##### 5）Extras(额外)
+
+![](.\img\Extras.jpg)
+
+##### 6）Flags(标记)
+
+![](.\img\Flags.jpg)
+
+#### 补充: 
+
+另外intent中还有Data(数据)，Type(MIME类型)两种用法，由于基本上用不上就不在讲解。
+
+## ShapeDrawable
+
+形状的Drawable咯,定义基本的几何图形,如(矩形,圆形,线条等),根元素是<shape../> 节点比较多，相关的节点如下：
+
+① <**shape**>:
+
+- ~ **visible**:设置是否可见
+
+- ~ **shape**:形状,可选:rectangle(矩形,包括正方形),oval(椭圆,包括圆),line(线段),ring(环形)
+
+- ~ **innerRadiusRatio**:当shape为ring才有效,表示环内半径所占半径的比率,如果设置了innerRadius, 他会被忽略
+
+- ~ **innerRadius**:当shape为ring才有效,表示环的内半径的尺寸
+
+- ~ **thicknessRatio**:当shape为ring才有效,表环厚度占半径的比率
+
+- ~ **thickness**:当shape为ring才有效,表示环的厚度,即外半径与内半径的差
+
+- ~ **useLevel**:当shape为ring才有效,表示是否允许根据level来显示环的一部分
+
+②<**size**>:
+
+- ~ **width**:图形形状宽度
+
+- ~ **height**:图形形状高度
+
+  ③<**gradient**>：后面GradientDrawable再讲~
+
+  ④<**solid**>
+
+- ~ **color**:背景填充色,设置solid后会覆盖gradient设置的所有效果!!!!!!
+
+  ⑤<**stroke**>
+
+- ~ **width**:边框的宽度
+
+- ~ **color**:边框的颜色
+
+- ~ **dashWidth**:边框虚线段的长度
+
+- ~ **dashGap**:边框的虚线段的间距
+
+  ⑥<**conner**>
+
+- ~ **radius**:圆角半径,适用于上下左右四个角
+
+- ~ **topLeftRadius**,**topRightRadius**,**BottomLeftRadius**,**tBottomRightRadius**: 依次是左上,右上,左下,右下的圆角值,按自己需要设置!
+
+  ⑦<**padding**>
+
+- left,top,right,bottm:依次是左上右下方向上的边距!
