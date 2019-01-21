@@ -1999,7 +1999,7 @@ setView() 可以设置自定义布局
 
 
 
-MainThread & WorkerThread**
+**MainThread & WorkerThread**
 
 - MainThread
 
@@ -2027,8 +2027,16 @@ Handler发送给消息队列传递的参数。
 #### MessageQueue 
 
 - 容器
-- 添加 queue.enqueueMessage(msg, uptimeMillis)
+
+  存放message的队列数据结构
+
+- 添加 
+
+  queue.enqueueMessage(msg, uptimeMillis)入队操作，将消息放入队列中
+
 - 消费
+
+  Looper调用出对方法取出message然后交给handler处理。
 
 
 
@@ -2036,27 +2044,9 @@ Handler发送给消息队列传递的参数。
 
 ![](![img](https://images0.cnblogs.com/blog/234895/201308/19093258-aa3efb1164ba4959a55cb9b3369b98e0.x-png))
 
-线程分为主线程(主线程又叫UI线程，只能有一个主线程）和子线程（可以有多个）Handler只能在主线程里运行 
-handler是Android给我们提供用来更新UI的一套机制，也是一套消息处理机制，我们可以发消息，也可以通过它 处理消息。 谷歌采用了只允许在主线程更新UI。
+每个线程只能够有一个Looper，Looper负责创建并管理当前线程中的MessageQueue，调用loop方法后就会在一个无限循环体中不断地从MessageQueue中取出Message并分发给对应的Handler，最后回调handleMessage()方法处理此消息。Looper才是整个机制的核心！
 
-- 子线程中修改UI，耗时操作，网络操作，handler修改UI
-- runOnUiThread()
-- handler.post()
-- handler.sendMessage()
-- handler.sendEmptyMessage()
-- loop()
-
-
-mHandler
-
-
-
-1. 演示ANR (耗时操作)
-2. 线程安全
-3. Handler
-4. handler常用使用方式
-5. Looper Message MessageQueue
-6. 练习
+**使用方法**
 
 **Hnadler** 常用方法
 
@@ -2067,7 +2057,11 @@ mHandler
 
 **Activity** 方法
 
-runOnUIThread
+​	runOnUIThread()
+
+​	activity父类内置了一个mHandler封装了handler.post()方法。所以activity子类可以通过调用runOnUIThread()方法实现异步消息处理。
+
+​	
 
 ## BroadcasetReceiver广播
 
