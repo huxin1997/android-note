@@ -2,7 +2,142 @@
 
 ## TextView
 
-测试
+1、基本布局
+
+```xml
+<TextView
+    android:id="@+id/tv_title"
+    android:layout_width="match_parent"
+    android:text="这是一段文字"
+    android:layout_height="wrap_content" />
+```
+
+2、属性
+
+1 对齐
+
+**android:gravity="center" <!-- 控件内对齐 -->**
+
+常用：center 居中
+​	 center_horizontal 水平居中
+​	 center_vertical 垂直居中
+​	 left 左对齐
+​	 rigth 右对齐
+​	 top 顶部对齐
+​	 bottom 底部对齐
+​	 start 左对齐的替代形式
+​	 end 右对齐的替代形式
+
+
+![](G:\移动互联\解题\Annotation 2019-01-02 144952.jpg)
+
+2 显示文字
+
+**android:text="这是一段文字" <!-- 显示基础文字 -->**
+
+**android:hint="这是一段默认文字" <!-- 显示默认文字 -->**
+
+```xml
+ <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="这是一段文字"
+        android:hint="这是一段默认文字"
+        />
+```
+
+![](G:\移动互联\解题\Annotation 2019-01-02 152137.jpg)
+
+3 颜色
+
+**android:textColor="#EA5246" <!--字体颜色-->**
+
+4 字体样式
+
+**android:textStyle="bold|italic" <!--字体加粗并斜体-->**
+
+**android:textSize="22sp" <!--字体大小-->**
+
+5 背景
+
+**android:background="#ddd" <!--背景颜色可以是个drawable-->**
+
+**android:background="@drawable/border"**
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <stroke android:color="#f00" android:width="1dp"></stroke>
+    <solid android:color="#96ff96"></solid>
+    <corners android:radius="5dp"></corners>
+</shape>
+```
+
+6 格式
+
+**android:singleLine="true" 或者android:maxLines="1" 设置一行显示**
+
+**android:ellipsize="" 溢出显示方式**
+
+可以有5种值：
+
+| Constant | Value | Description  |
+| -------- | ----- | ------------ |
+| end      | 3     | 省略结束     |
+| marquee  | 4     | 跑！马！灯！ |
+| middle   | 2     | 省略中间     |
+| none     | 0     | 默认         |
+| start    | 1     | 省略开头     |
+
+最常见是省略后面的文字和跑马灯
+
+
+
+## EditText
+1 基本布局
+
+```xml
+<EditText
+    android:id="@+id/et_input"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:inputType="text"
+    android:hint="这是个输入框"
+    />
+```
+
+![1546425557527](1546425557527.png)
+
+大多数方法和TextView相同
+
+inputType 输入类型：
+
+https://developer.android.google.cn/reference/android/R.styleable#TextView_inputType
+
+几个常用：
+
+- number 数字（只能输数字时可以用，比如允许输入1-999可以设置输入类型为数字并限制长度为3，这样在代码中就只需做非空和非0判断）
+- text 文本
+- textPassword 文本密码
+- numberPassword 数字密码
+- phone 号码
+
+点击全选文字
+
+```java
+android:selectAllOnFocus="true" //点击时全选文字
+```
+
+2 代码
+
+大部分相同，获取文字时注意类型！
+
+**获取输入文本：getText()** 返回是个`Editable`对象，toString()即可返回正常文本
+
+**代码输入文本：setText()**
+
+​	
 
 ## ImageView
 
@@ -12,6 +147,65 @@
 - background 会拉伸，src 根据图片大小填充
 - src 和 background 可以同时使用
 - 代码设置图片
+
+- android:adjustViewBounds="true" 缩放跟随宽高等比缩放
+- android:maxHeight="" 最大的高度
+- android:maxWidth="" 最大的宽度
+
+第一个属性如果在宽高不对等的情况下，会优先缩放到最小的那一个值，其他部分留白。
+
+有个专门属性控制缩放：
+
+**android:scaleType**
+
+| Constant     | Value | Description                                                |
+| ------------ | ----- | ---------------------------------------------------------- |
+| center       | 5     | 居中显示，不做任何缩放                                     |
+| centerCrop   | 6     | 拉伸缩放，直到覆盖整个控件大小，并居中，可能图像出现不完整 |
+| centerInside | 7     | 缩放，确保图像显示完整，居中显示                           |
+| fitCenter    | 3     | 中心缩放，对齐中心                                         |
+| fitEnd       | 4     | 局右缩放，对齐右边                                         |
+| fitStart     | 2     | 局左缩放，对齐左边                                         |
+| fitXY        | 1     | 拉伸缩放，填充宽高                                         |
+| matrix       | 0     | 对齐左上角，不做缩放                                       |
+
+当添加了上面这个属性后，adjustViewBounds属性无效！
+
+
+
+## Button
+
+1 基本布局
+
+```xml
+<Button
+    android:id="@+id/btn_one_button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Button"
+    />
+```
+
+text中的英文字符都会强制变为大写
+
+Button 继承自TextView，所以TextView有的属性，Button也有。
+
+2 代码
+
+设置点击事件
+
+```java
+btnOneB.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        ...
+    }
+});
+```
+
+
+
+
 
 ## RadioButton 
 
@@ -33,9 +227,47 @@ sexGroup.setOnCheckedChangeListener((group, checkedId) ->{
 
 ![1546417839052](./img/radiobutton.png)
 
+
+
 ## CheckBox 
 
 - setOnCheckedChangeListener()
+
+  1 布局
+
+  与RadioButton继承关系一样，同样可以使用Button或TextView的所有属性
+
+  ```xml
+  <CheckBox
+      android:id="@+id/cb_check_one"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="选我第一份"
+      />
+  ```
+
+  这个就不能结合RadioGroup的事件来使用了，最好是在一堆多选框中使用LinearLayout包含使用。
+
+  2 代码
+
+  继承自Button和TextView，所以方法都类似，主要使用一个Getter和一个状态改变事件
+
+  ```java
+  checkBoxOne.isChecked();//是否被勾选
+  ```
+
+  ```java
+  checkBoxOne.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+      @Override
+      public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+          ...
+      }
+  });
+  /*
+  	第一个事件发生的按钮，第二个参数是否被勾选
+  */
+  ```
+
 
 
 ## ToggleButton & Switch
@@ -43,6 +275,52 @@ sexGroup.setOnCheckedChangeListener((group, checkedId) ->{
 - textOn
 - textOff
 - setOnCheckedChangeListener()
+
+1 布局
+
+还是和上面的RadioButton、CheckBox一样.
+
+```xml
+<ToggleButton
+    android:id="@+id/tb_switch"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:disabledAlpha="1.0"
+    android:textOn="我开着"
+    android:textOff="我关着"
+    />
+```
+
+两个属性：textOn和textOff分别代表激活时显示的字和没激活的字，此时设置text属性就没有用了。这两个属性代替了text属性。所以一定要设置。
+
+另外可以设置drawable背景，在状态不同时改变背景。
+
+android:disabledAlpha 按钮在禁用时的透明度
+
+2 代码
+
+按钮状态改变事件
+
+```java
+tbSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+        if(b){
+            Toast.makeText(MainActivity.this, "开关：on", Toast.LENGTH_SHORT).show();
+        }else {
+            Toast.makeText(MainActivity.this, "开关：off",Toast.LENGTH_SHORT).show();
+        }
+    }
+});
+```
+
+设置按钮状态
+
+```java
+tbSwitch.setChecked(true);
+```
+
+
 
 ## ProgressBar
 
