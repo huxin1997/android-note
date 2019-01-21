@@ -2699,3 +2699,430 @@ public class MainActivity extends AppCompatActivity {
     }
 }
 ```
+
+## ViewPager
+
+##### ViewPager使用的Adapter
+
+- **FragmentPageAdapter**：和PagerAdapter一样，只会缓存当前的Fragment以及左边一个，右边 一个，即总共会缓存3个Fragment而已，假如有1，2，3，4四个页面：
+  处于1页面：缓存1，2
+  处于2页面：缓存1，2，3
+  处于3页面：销毁1页面，缓存2，3，4
+  处于4页面：销毁2页面，缓存3，4
+  更多页面的情况，依次类推~
+- **PagerAdapter**：最基本的用法。
+
+##### PagerAdapter的使用
+
+> 我们先来介绍最普通的PagerAdapter，如果想使用这个PagerAdapter需要重写下面的四个方法： 当然，这只是官方建议，实际上我们只需重写getCount()和isViewFromObject()就可以了~
+>
+> - **getCount()**:获得viewpager中有多少个view
+> - **destroyItem()**:移除一个给定位置的页面。适配器有责任从容器中删除这个视图。 这是为了确保在finishUpdate(viewGroup)返回时视图能够被移除。
+>
+> 而另外两个方法则是涉及到一个key的东东：
+>
+> - **instantiateItem()**: ①将给定位置的view添加到ViewGroup(容器)中,创建并显示出来 ②返回一个代表新增页面的Object(key),通常都是直接返回view本身就可以了,当然你也可以 自定义自己的key,但是key和每个view要一一对应的关系
+> - **isViewFromObject()**: 判断instantiateItem(ViewGroup, int)函数所返回来的Key与一个页面视图是否是 代表的同一个视图(即它俩是否是对应的，对应的表示同一个View),通常我们直接写 return view == object!
+
+##### 使用示例1：最简单用法
+
+**运行效果图**：
+
+![img](http://www.runoob.com/wp-content/uploads/2015/10/68392114.jpg)
+
+**关键部分代码**：
+
+好的，代码写起来也是非常简单的：首先是每个View的布局，一式三份，另外两个View一样：
+
+**view_one.xml**：
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFBA55"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="第一个Page"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+</LinearLayout>  
+```
+
+然后编写一个自定义个的PagerAdapter：
+
+**MyPagerAdapter.java**：
+
+```
+public class MyPagerAdapter extends PagerAdapter {
+    private ArrayList<View> viewLists;
+
+    public MyPagerAdapter() {
+    }
+
+    public MyPagerAdapter(ArrayList<View> viewLists) {
+        super();
+        this.viewLists = viewLists;
+    }
+
+    @Override
+    public int getCount() {
+        return viewLists.size();
+    }
+
+    @Override
+    public boolean isViewFromObject(View view, Object object) {
+        return view == object;
+    }
+
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        container.addView(viewLists.get(position));
+        return viewLists.get(position);
+    }
+
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        container.removeView(viewLists.get(position));
+    }
+}
+```
+
+接着到Activity了，和以前学的ListView非常类似：
+
+**OneActivity.java**：
+
+```
+public class OneActivity extends AppCompatActivity{
+
+    private ViewPager vpager_one;
+    private ArrayList<View> aList;
+    private MyPagerAdapter mAdapter;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_one);
+        vpager_one = (ViewPager) findViewById(R.id.vpager_one);
+
+        aList = new ArrayList<View>();
+        LayoutInflater li = getLayoutInflater();
+        aList.add(li.inflate(R.layout.view_one,null,false));
+        aList.add(li.inflate(R.layout.view_two,null,false));
+        aList.add(li.inflate(R.layout.view_three,null,false));
+        mAdapter = new MyPagerAdapter(aList);
+        vpager_one.setAdapter(mAdapter);
+    }
+}
+```
+
+##### 标题栏——PagerTitleStrip与PagerTabStrip
+
+> 就是跟随着ViewPager滑动而滑动的标题咯，这两个是官方提供的，一个是普通文字， 一个是带有下划线，以及可以点击文字可切换页面，下面我们来写个简单的例子~
+
+**运行效果图**：
+
+![img](http://www.runoob.com/wp-content/uploads/2015/10/51098800.jpg)
+
+**关键代码实现**：
+
+这里两者的区别仅仅是布局不一样而已，其他的都一样：
+
+**PagerTitleStrip**所在Activtiy的布局： **activity_two.xml**：
+
+```
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="#CCFF99"
+        android:gravity="center"
+        android:text="PagerTitleStrip效果演示"
+        android:textColor="#000000"
+        android:textSize="18sp" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vpager_two"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <android.support.v4.view.PagerTitleStrip
+            android:id="@+id/pagertitle"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="top"
+            android:textColor="#FFFFFF" />
+   </android.support.v4.view.ViewPager>
+
+</LinearLayout> 
+```
+
+而PagerTabStrip所在的布局：
+
+**activity_three.xml**：
+
+```
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:background="#C0C080"
+        android:gravity="center"
+        android:text="PagerTabStrip效果演示"
+        android:textSize="18sp" />
+        
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vpager_three"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <android.support.v4.view.PagerTabStrip
+            android:id="@+id/pagertitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top" />
+     </android.support.v4.view.ViewPager>
+</LinearLayout>
+```
+
+接下来的两者都一样了，我们先来编写一个自定义的PagerAdapter，除了前面重写的 四个方法外，我们需要另外重写一个方法：**getPageTitle**()，这个设置标题的~ 代码如下：
+
+**MyPagerAdapter2.java**：
+
+```
+/**
+ * Created by Jay on 2015/10/8 0008.
+ */
+public class MyPagerAdapter2 extends PagerAdapter {
+    private ArrayList<View> viewLists;
+    private ArrayList<String> titleLists;
+
+    public MyPagerAdapter2() {}
+    public MyPagerAdapter2(ArrayList<View> viewLists,ArrayList<String> titleLists)
+    {
+        this.viewLists = viewLists;
+        this.titleLists = titleLists;
+    }
+
+    @Override
+    public int getCount() {
+        return viewLists.size();
+    }
+
+    @Override
+    public boolean isViewFromObject(View view, Object object) {
+        return view == object;
+    }
+
+    @Override
+    public Object instantiateItem(ViewGroup container, int position) {
+        container.addView(viewLists.get(position));
+        return viewLists.get(position);
+    }
+
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        container.removeView(viewLists.get(position));
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return titleLists.get(position);
+    }
+}
+```
+
+最后是Activity部分，两个都是一样的：
+
+**TwoActivity.java**：
+
+```
+/**
+ * Created by Jay on 2015/10/8 0008.
+ */
+public class TwoActivity extends AppCompatActivity {
+
+    private ViewPager vpager_two;
+    private ArrayList<View> aList;
+    private ArrayList<String> sList;
+    private MyPagerAdapter2 mAdapter;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_two);
+        vpager_two = (ViewPager) findViewById(R.id.vpager_two);
+        aList = new ArrayList<View>();
+        LayoutInflater li = getLayoutInflater();
+        aList.add(li.inflate(R.layout.view_one,null,false));
+        aList.add(li.inflate(R.layout.view_two,null,false));
+        aList.add(li.inflate(R.layout.view_three, null, false));
+        sList = new ArrayList<String>();
+        sList.add("橘黄");
+        sList.add("淡黄");
+        sList.add("浅棕");
+        mAdapter = new MyPagerAdapter2(aList,sList);
+        vpager_two.setAdapter(mAdapter);
+    }
+}
+```
+
+##### FragmentPagerAdapter的使用
+
+```
+public class ViewPagerAndFragmentActivity extends AppCompatActivity {
+
+    ViewPager vp_f_content;
+    List<Fragment> f_lists=new ArrayList<>();
+    List<String> t_lists=new ArrayList<>();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        f_lists.add(new MyFragmentDemoA());
+        f_lists.add(new MyFragmentDemoB());
+        f_lists.add(new MyFragmentDemoC());
+        f_lists.add(new MyFragmentDemoD());
+        t_lists.add("第一个");
+        t_lists.add("第二个");
+        t_lists.add("第三个");
+        t_lists.add("第四个");
+        setContentView(R.layout.activity_view_pager_and_fragment);
+        vp_f_content= (ViewPager) findViewById(R.id.vp_f_content);
+        FragmentPagerAdapter fragmentPagerAdapter=new FragmentPagerAdapter(getSupportFragmentManager()) {
+
+            @Override
+            public long getItemId(int position) {
+                return super.getItemId(position);
+            }
+
+            @Override
+            public Fragment getItem(int position) {
+                Fragment fragment = f_lists.get(position);
+                return fragment;
+            }
+
+            @Override
+            public int getCount() {
+                return f_lists.size();
+            }
+
+            @Override
+            public CharSequence getPageTitle(int position) {
+                return t_lists.get(position);
+            }
+        };
+        vp_f_content.setAdapter(fragmentPagerAdapter);
+
+    }
+}
+```
+
+Fragment界面代码：
+
+```
+public class MyFragmentDemoA extends Fragment {
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View inflate = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_a_view, null);
+        Button button=inflate.findViewById(R.id.btn_fragment_a_toast);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle arguments = getArguments();
+                try {
+                        Toast.makeText(getActivity(), "我是第一个fragment中的button按钮。内容为:" + arguments.getString("cai"), Toast.LENGTH_SHORT).show();
+                }catch (Exception e){
+                    Toast.makeText(getActivity(), "没有内容。", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        return inflate;
+    }
+    
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+}
+```
+
+Fragment布局xml：
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="#ff0000"
+    android:layout_height="match_parent">
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:textSize="20dp"
+    android:text="第一个界面"
+    />
+    <Button
+        android:id="@+id/btn_fragment_a_toast"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="按钮"
+        />
+</LinearLayout>
+```
+
+activity布局xml：
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_f_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+<android.support.v4.view.PagerTabStrip
+    android:layout_width="match_parent"
+    android:layout_height="40dp">
+
+</android.support.v4.view.PagerTabStrip>
+    </android.support.v4.view.ViewPager>
+
+</LinearLayout>
+```
+
+实现效果：
+
+![](img\view_pager_fragment.png)
