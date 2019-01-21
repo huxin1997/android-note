@@ -832,7 +832,145 @@ setTitle(R.string.actdialog_title);  //XML代码中设置:android:label="@string
 - **1**. drawer_layout.**openDrawer**(Gravity.END);
   这句是设置打开的哪个菜单START代表左边，END代表右边，也可以传入View对象。
 - **2**. drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED,Gravity.END); 锁定右面的侧滑菜单，不能通过手势关闭或者打开，只能通过代码打开！即调用openDrawer方法！ 接着 drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED,Gravity.END); 解除锁定状态，即可以通过手势关闭侧滑菜单 最后在drawer关闭的时候调用： drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.END); 再次锁定右边的侧滑菜单！
-- 
+
+## File
+
+基本操作：
+
+```java
+/**
+ * 添加一个文件，文件名为当前时间
+ *
+ * @param view
+ */
+public void addFile(View view) {
+    try {
+        String fileName = Environment.getExternalStorageDirectory().getCanonicalPath() + "/信息.txt";
+        FileOutputStream outputStream = new FileOutputStream(fileName);
+        outputStream.write(("我叫张三" + System.currentTimeMillis()).getBytes());
+        outputStream.close();
+        Toast.makeText(this, "写入文件成功！", Toast.LENGTH_SHORT).show();
+    } catch (IOException e) {
+        e.printStackTrace();
+        Toast.makeText(this, "写入文件失败！", Toast.LENGTH_SHORT).show();
+    }
+
+}
+
+/**
+ * 显示刚刚文件内容
+ *
+ * @param view
+ */
+public void showFileContent(View view) {
+    try {
+        FileInputStream inputStream = new FileInputStream(Environment.getExternalStorageDirectory().getCanonicalPath() + "/信息.txt");
+        byte[] bytes = new byte[1024];
+        int len;
+        StringBuilder s = new StringBuilder();
+        while ((len = inputStream.read(bytes)) > 0) {
+            s.append(new String(bytes, 0, len));
+        }
+        Toast.makeText(this, "文件信息：" + s, Toast.LENGTH_SHORT).show();
+    } catch (IOException e) {
+        e.printStackTrace();
+        Toast.makeText(this, "读取文件失败", Toast.LENGTH_SHORT).show();
+    }
+}
+```
+
+
+
+## SharedPreferences
+
+基本操作：
+
+```java
+    /**
+     * 通过SharedPreferences保存数据
+     *
+     * @param view
+     */
+    public void saveData(View view) {
+        SharedPreferences sp = getSharedPreferences("datas", MODE_PRIVATE);
+        SharedPreferences.Editor edit = sp.edit();
+        edit.putString("name", "张三" + System.currentTimeMillis());
+        edit.putInt("age", 20);
+//        edit.commit();//主线程
+        edit.apply();//后台
+    }
+
+    /**
+     * 通过SharedPreferences读取数据
+     *
+     * @param view
+     */
+    public void readData(View view) {
+        SharedPreferences sp = getSharedPreferences("datas", MODE_PRIVATE);
+        String name = sp.getString("name", "默认");
+        int age = sp.getInt("age", 0);
+        Toast.makeText(this, "name:" + name + ",age:" + age, Toast.LENGTH_SHORT).show();
+    }
+```
+
+
+
+## SQLiteDatabase
+
+创建表，增删改查：
+
+```java
+    /**
+     * 数据库操作
+     * @param view
+     */
+    public void creatTable(View view) {
+        SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase(getFilesDir() + "/persons.db", null);
+        db.execSQL("create table persons(id Integer primary key autoincrement,name text,age int)");
+        db.close();
+    }
+
+    public void addPerson(View view) {
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(getFilesDir() + "/persons.db", null, SQLiteDatabase.OPEN_READWRITE);
+        random = new Random();
+        db.execSQL("insert into persons(name,age) values(?,?)",
+                new Object[]{random.nextInt(100000) + "张三", random.nextInt(100)});
+        db.close();
+        queryPerson(null);
+    }
+
+    public void queryPerson(View view) {
+        personList.clear();
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(getFilesDir() + "/persons.db", null, SQLiteDatabase.OPEN_READWRITE);
+        Cursor cursor = db.rawQuery("select * from persons", null);
+        while (cursor.moveToNext()) {
+            personList.add(new Person(cursor.getInt(0), cursor.getString(1), cursor.getInt(2)));
+        }
+        cursor.close();
+        db.close();
+        adapter.notifyDataSetChanged();
+    }
+
+    public void modifyPerson(View view) {
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(getFilesDir() + "/persons.db", null, SQLiteDatabase.OPEN_READWRITE);
+        //修改id最小的person的age
+        db.execSQL("update persons set age=? where id=(select min(id) from persons)", new Object[]{random.nextInt(100)});
+        db.close();
+        queryPerson(null);
+    }
+
+    public void deletePerson(View view) {
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(getFilesDir() + "/persons.db", null, SQLiteDatabase.OPEN_READWRITE);
+//        db.execSQL("delete from persons where id=(select min(id) from persons)");
+        db.delete("persons","id=(select min(id) from persons)",null);
+        db.close();
+        queryPerson(null);
+    }
+```
+
+
+
+
 
 ## ExpandableListView
 
