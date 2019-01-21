@@ -787,9 +787,52 @@ getWindow().setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, android.R.drawa
 setTitle(R.string.actdialog_title);  //XML代码中设置:android:label="@string/activity_dialog"
 ```
 
+最后要在AndroidManifest.xml里面配置你新写的Activity。
 
 
 
+## DrawerLayout
+
+使用的注意事项
+
+> - **1**.主内容视图一定要是DrawerLayout的第一个子视图
+> - **2**.主内容视图宽度和高度需要match_parent
+> - **3**.必须显示指定侧滑视图的android:**layout_gravity属性** android:layout_gravity = "start"时，从左向右滑出菜单 android:layout_gravity = "end"时，从右向左滑出菜单 不推荐使用left和right!!!
+> - 侧滑视图的宽度以dp为单位，不建议超过**320dp**(为了总能看到一些主内容视图)
+> - 设置侧滑事件：mDrawerLayout.setDrawerListener(DrawerLayout.DrawerListener);
+
+主布局：
+
+```xml
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/ly_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <ListView
+        android:id="@+id/list_left_drawer"
+        android:layout_width="180dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="#080808"
+        android:choiceMode="singleChoice"
+        android:divider="#FFFFFF"
+        android:dividerHeight="1dp" />
+
+</android.support.v4.widget.DrawerLayout>
+```
+
+相关方法：
+
+- **1**. drawer_layout.**openDrawer**(Gravity.END);
+  这句是设置打开的哪个菜单START代表左边，END代表右边，也可以传入View对象。
+- **2**. drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED,Gravity.END); 锁定右面的侧滑菜单，不能通过手势关闭或者打开，只能通过代码打开！即调用openDrawer方法！ 接着 drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED,Gravity.END); 解除锁定状态，即可以通过手势关闭侧滑菜单 最后在drawer关闭的时候调用： drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.END); 再次锁定右边的侧滑菜单！
+- 
 
 ## ExpandableListView
 
