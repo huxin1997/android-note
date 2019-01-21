@@ -3133,7 +3133,7 @@ activity布局xml：
 
 ## Android五种补间动画
 
-- **AlphaAnimation：**透明度渐变效果，创建时许指定开始以及结束透明度，还有动画的持续 时间，透明度的变化范围(0,1)，0是完全透明，1是完全不透明；对应<**alpha**/>标签！
+- **AlphaAnimation**：透明度渐变效果，创建时许指定开始以及结束透明度，还有动画的持续 时间，透明度的变化范围(0,1)，0是完全透明，1是完全不透明；对应<**alpha**/>标签！
 - **ScaleAnimation**：缩放渐变效果，创建时需指定开始以及结束的缩放比，以及缩放参考点， 还有动画的持续时间；对应<**scale**/>标签！
 - **TranslateAnimation**：位移渐变效果，创建时指定起始以及结束位置，并指定动画的持续 时间即可；对应<**translate**/>标签！
 - **RotateAnimation**：旋转渐变效果，创建时指定动画起始以及结束的旋转角度，以及动画 持续时间和旋转的轴心；对应<**rotate**/>标签
@@ -3285,7 +3285,7 @@ activity布局xml：
 
 跳转activity时使用动画
 
-**注意：在startActivity(intent)**或者**finish()**后添加 overridePendingTransition(R.anim.set_out,R.anim.set_in);
+**注意：在startActivity(intent)** 或者**finish()**后添加 overridePendingTransition(R.anim.set_out,R.anim.set_in);
 
 ```
 Intent intent=new Intent(AnimDemoActivity.this,TranslateAnimDemoActivity.class);
@@ -3293,7 +3293,7 @@ startActivity(intent);
 overridePendingTransition(R.anim.set_out,R.anim.set_in);
 ```
 
-**跳转Fragment时使用动画** setCustomAnimations(R.anim.view_flipper_in,R.anim.view_flipper_a)
+**跳转Fragment时使用动画**  setCustomAnimations(R.anim.view_flipper_in,R.anim.view_flipper_a)
 
 ```
 fragmentTransaction= fragmentManager.beginTransaction();
@@ -3421,3 +3421,8 @@ public class AnimationMoreDemoActivity extends AppCompatActivity {
 </set>
 ```
 
+效果：
+
+点击屏幕上的图片旋转动画完成后可以随便更改位置。
+
+![](.\img\anim.png)
