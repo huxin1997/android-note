@@ -804,7 +804,7 @@ setTitle(R.string.actdialog_title);  //XML代码中设置:android:label="@string
 
 
 
-## ProgressDialog的
+## ProgressDialog
 
 ```java
 ProgressDialog progressDialog = ProgressDialog.show(this, "提示", "加载中...");
@@ -812,6 +812,84 @@ ProgressDialog progressDialog = new ProgressDialog(this);
 ```
 
 第一种的方式不能更改progress样式。	
+
+
+
+## Notification
+
+**1）Notification的基本布局**
+
+![img](38056771.jpg)
+
+> 上面的组成元素依次是：
+>
+> - **Icon/Photo**：大图标
+> - **Title/Name**：标题
+> - **Message**：内容信息
+> - **Timestamp**：通知时间，默认是系统发出通知的时间，也可以通过setWhen()来设置
+> - **Secondary Icon**：小图标
+> - **内容文字**，在小图标的左手边的一个文字
+
+
+
+**2.Notification的基本使用流程**
+
+> 状态通知栏主要涉及到2个类：Notification 和NotificationManager
+>
+> **Notification**：通知信息类，它里面对应了通知栏的各个属性
+>
+> **NotificationManager**：是状态栏通知的管理类，负责发通知、清除通知等操作。
+>
+> 使用的基本流程：
+>
+> - **Step 1.** 获得NotificationManager对象： NotificationManager mNManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+> - **Step 2.** 创建一个通知栏的Builder构造类： Notification.Builder mBuilder = new Notification.Builder(this);
+> - **Step 3.** 对Builder进行相关的设置，比如标题，内容，图标，动作等！
+> - **Step 4.**调用Builder的build()方法为notification赋值
+> - **Step 5**.调用NotificationManager的notify()方法发送通知！
+> - **PS:**另外我们还可以调用NotificationManager的cancel()方法取消通知
+
+
+
+**代码方面**
+
+- **setContentTitle**(CharSequence)：设置标题
+- **setContentText**(CharSequence)：设置内容
+- **setSubText**(CharSequence)：设置内容下面一小行的文字
+- **setTicker**(CharSequence)：设置收到通知时在顶部显示的文字信息
+- **setWhen**(long)：设置通知时间，一般设置的是收到通知时的System.currentTimeMillis()
+- **setSmallIcon**(int)：设置右下角的小图标，在接收到通知的时候顶部也会显示这个小图标
+- **setLargeIcon**(Bitmap)：设置左边的大图标
+- **setAutoCancel**(boolean)：用户点击Notification点击面板后是否让通知取消(默认不取消)
+- **setDefaults**(int)：向通知添加声音、闪灯和振动效果的最简单、 使用默认（defaults）属性，可以组合多个属性，
+  **Notification.DEFAULT_VIBRATE**(添加默认震动提醒)；
+  **Notification.DEFAULT_SOUND**(添加默认声音提醒)；
+  **Notification.DEFAULT_LIGHTS**(添加默认三色灯提醒)
+  **Notification.DEFAULT_ALL**(添加默认以上3种全部提醒)
+- **setVibrate**(long[])：设置振动方式，比如：
+  setVibrate(new long[] {0,300,500,700});延迟0ms，然后振动300ms，在延迟500ms， 接着再振动700ms，关于Vibrate用法后面会讲解！
+- **setContentIntent**(PendingIntent)：PendingIntent和Intent略有不同，它可以设置执行次数， 主要用于远程服务通信、闹铃、通知、启动器、短信中，在一般情况下用的比较少。比如这里通过 Pending启动Activity：getActivity(Context, int, Intent, int)，当然还可以启动Service或者Broadcast PendingIntent的位标识符(第四个参数)：
+  **FLAG_ONE_SHOT** 表示返回的PendingIntent仅能执行一次，执行完后自动取消
+  **FLAG_NO_CREATE** 表示如果描述的PendingIntent不存在，并不创建相应的PendingIntent，而是返回NULL
+  **FLAG_CANCEL_CURRENT** 表示相应的PendingIntent已经存在，则取消前者，然后创建新的PendingIntent， 这个有利于数据保持为最新的，可以用于即时通信的通信场景
+  **FLAG_UPDATE_CURRENT** 表示更新的PendingIntent
+  使用示例：
+
+
+
+## AlertDialog
+
+**1.基本使用流程**
+
+> - **Step 1**：创建**AlertDialog.Builder**对象；
+> - **Step 2**：调用**setIcon()**设置图标，**setTitle()**或**setCustomTitle()**设置标题；
+> - **Step 3**：设置对话框的内容：**setMessage()**还有其他方法来指定显示的内容；
+> - **Step 4**：调用**setPositive/Negative/NeutralButton()**设置：确定，取消，中立按钮；
+> - **Step 5**：调用**create()**方法创建这个对象，再调用**show()**方法将对话框显示出来；
+
+
+
+setView() 可以设置自定义布局
 
 
 
