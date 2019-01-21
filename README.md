@@ -1779,6 +1779,43 @@ setTitle(R.string.actdialog_title);  //XML代码中设置:android:label="@string
 
 ![](.\img\expandable_1.jpg)
 
+**定义一个bean对象**
+
+```java
+    class Person {
+        int id;
+
+        int imgId;
+
+        String name;
+
+        boolean isSeleted;
+
+        public Person(int id, int imgId, String name) {
+            this.id = id;
+            this.imgId = imgId;
+            this.name = name;
+        }
+    }
+```
+
+**返回group和item的数量**
+
+```java
+        //返回一级列表的个数
+        @Override
+        public int getGroupCount() {
+            return groups.length;
+        }
+
+        //返回每个二级列表的个数
+        @Override
+        public int getChildrenCount(int groupPosition) { 
+            //参数groupPosition表示第几个一级列表
+			return groups.get(groupPosition).items.size()
+        }
+```
+
 **生成group视图**
 
 ```java
@@ -1820,6 +1857,16 @@ public View getGroupView(int groupPosition, boolean isExpanded, View convertView
                 });
                 return view;
             }
+```
+
+**item是否可以点击**
+
+```java
+            @Override
+            public boolean isChildSelectable(int groupPosition, int childPosition) {
+                return true;
+            }
+
 ```
 
 
