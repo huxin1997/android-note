@@ -1429,7 +1429,7 @@ listView 复用原理：每一个item显示时都需要调用adapter的getView�
 
 ​	![](.\img\recycler.jpg)
 
-**issue**
+### issue
 
 ​	如果使用了recycler缓存机制，新加载的item由于是复用之间隐藏的item将会出现控件属性还是之间item的，造成状态混乱。
 
@@ -1599,7 +1599,9 @@ LinearLayout是一个控件容器，用于将容器内的子元素按照指定�
 
 ![](.\img\relative_layout.jpg)梅花布局
 
-![](.\img\meihua.jpg)
+![
+
+](F:\资料文档\笔记\Android笔记\img\meihua.jpg)
 
 ## Spinner
 
@@ -1781,97 +1783,6 @@ setTitle(R.string.actdialog_title);  //XML代码中设置:android:label="@string
 
 - **android:groupIndicator**：显示在组列表旁边的Drawable对象，可以是一个图像
 
-![](.\img\expandable_1.jpg)
-
-**定义一个bean对象**
-
-```java
-    class Person {
-        int id;
-
-        int imgId;
-
-        String name;
-
-        boolean isSeleted;
-
-        public Person(int id, int imgId, String name) {
-            this.id = id;
-            this.imgId = imgId;
-            this.name = name;
-        }
-    }
-```
-
-**返回group和item的数量**
-
-```java
-        //返回一级列表的个数
-        @Override
-        public int getGroupCount() {
-            return groups.length;
-        }
-
-        //返回每个二级列表的个数
-        @Override
-        public int getChildrenCount(int groupPosition) { 
-            //参数groupPosition表示第几个一级列表
-			return groups.get(groupPosition).items.size()
-        }
-```
-
-**生成group视图**
-
-```java
-@Override
-public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        if (convertView == null) {
-         convertView = getLayoutInflater().inflate(android.R.layout.simple_expandable_list_item_1, parent, false);
-         }
-          TextView groupName = convertView.findViewById(android.R.id.text1);
-          groupName.setText(groups.get(groupPosition).groupName);
-          return convertView;
-}
-```
-
-**生成group的items视图**
-
-```java
-            @Override
-            public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-//                if (convertView == null) {
-                View view = getLayoutInflater().inflate(R.layout.item_person, parent, false);
-//                }？
-
-                final Person person = groups.get(groupPosition).items.get(childPosition);
-
-                ImageView imageView = view.findViewById(R.id.img_person);
-                TextView tvName = view.findViewById(R.id.tv_name);
-                CheckBox checkBox = view.findViewById(R.id.cb_select);
-
-
-                imageView.setBackgroundResource(person.imgId);
-                tvName.setText(person.name);
-                checkBox.setChecked(person.isSeleted);
-                checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        person.isSeleted = isChecked;
-                    }
-                });
-                return view;
-            }
-```
-
-**item是否可以点击**
-
-```java
-            @Override
-            public boolean isChildSelectable(int groupPosition, int childPosition) {
-                return true;
-            }
-
-```
 
 
 
@@ -1974,69 +1885,28 @@ setView() 可以设置自定义布局
 
 ## Handler
 
-> Handler 主要用于异步消息的处理，封装了发送消息和处理消息的方法。
+> Handler 发送消息(Message) 到消息队列中(MessageQueue) ，Looper 通过无限循环的方式不断向消息队列中获取新添加的消息 然后交给 Handler ，最终消息回到 Handler 中被处理
 >
-> 操作流程：发送消息(Message) 到消息队列中(MessageQueue) ，Looper 通过无限循环的方式不断向消息队列中获取新添加的消息 然后交给 Handler ，最终消息回到 Handler 中被处理
+>
 
-**为什么要使用handler？**
-
-- ANR
-
-  ![](.\img\anr.jpg)
-
-  ​	在Android上，如果你的应用程序有一段时间响应不够灵敏，系统会向用户显示一个对话框，这个对话框称作应用程序无响应（ANR：Application Not Responding）对话框。用户可以选择“等待”而让程序继续运行，也可以选择“强制关闭”。所以一个流畅的合理的应用程序中不能出现anr，而让用户每次都要处理这个对话框。因此，在程序里对响应性能的设计很重要，这样系统不会显示ANR给用户。默认情况下，在android中Activity的最长执行时间是5秒，BroadcastReceiver的最长执行时间则是10秒。
-
-- 线程安全
-
-  ​	为了避免ANR出现所以需要将耗时操作放到子线程中执行，当多条线程操作同一个资源时，就出现数据异常问题。
-
+**耗时 - 线程安全**
 
 **线程生命周期**
 
-​	![](.\img\thread_life.png)
-
-​	当线程被创建并启动以后，它既不是一启动就进入了执行状态，也不是一直处于执行状态。在线程的生命周期中，它要经过**新建**(New)、**就绪**（Runnable）、**运行**（Running）、**阻塞**(Blocked)和**死亡**(Dead)**5种状态**。
-
-
-
 **MainThread & WorkerThread**
 
-- MainThread
+**ANR**
 
-  及主线程也称作UI线程，更改UI界面操作需要放到这里执行
+#### Message
 
-- WorkerThread
-
-  辅助线程，完成一些耗时操作。如网络请求，读写文件，运算等。
-
-
-
-#### Message 对象
-
-- what 属性： 
-  int类型，主线程用来识别子线程发来的是什么消息。
-- arg1 属性： 
-  int类型，如果传递的消息类型为int型，可以将数字赋给arg1,arg2。
-- obj 属性： 
-  Objectt类型，如果传递的消息是String或者其他，可以赋给obj。
-
-Handler发送给消息队列传递的参数。
-
-
+- obj
+- what
 
 #### MessageQueue 
 
 - 容器
-
-  存放message的队列数据结构
-
-- 添加 
-
-  queue.enqueueMessage(msg, uptimeMillis)入队操作，将消息放入队列中
-
+- 添加 queue.enqueueMessage(msg, uptimeMillis)
 - 消费
-
-  Looper调用出对方法取出message然后交给handler处理。
 
 
 
@@ -2044,9 +1914,29 @@ Handler发送给消息队列传递的参数。
 
 ![](![img](https://images0.cnblogs.com/blog/234895/201308/19093258-aa3efb1164ba4959a55cb9b3369b98e0.x-png))
 
-每个线程只能够有一个Looper，Looper负责创建并管理当前线程中的MessageQueue，调用loop方法后就会在一个无限循环体中不断地从MessageQueue中取出Message并分发给对应的Handler，最后回调handleMessage()方法处理此消息。Looper才是整个机制的核心！
+线程分为主线程(主线程又叫UI线程，只能有一个主线程）和子线程（可以有多个）Handler只能在主线程里运行 
+handler是Android给我们提供用来更新UI的一套机制，也是一套消息处理机制，我们可以发消息，也可以通过它 处理消息。 谷歌采用了只允许在主线程更新UI。
 
-**使用方法**
+- 子线程中修改UI，耗时操作，网络操作，handler修改UI
+- runOnUiThread()
+- handler.post()
+- handler.sendMessage()
+- handler.sendEmptyMessage()
+- loop()
+- 
+
+
+
+mHandler
+
+
+
+1. 演示ANR (耗时操作)
+2. 线程安全
+3. Handler
+4. handler常用使用方式
+5. Looper Message MessageQueue
+6. 练习
 
 **Hnadler** 常用方法
 
@@ -2057,11 +1947,7 @@ Handler发送给消息队列传递的参数。
 
 **Activity** 方法
 
-​	runOnUIThread()
-
-​	activity父类内置了一个mHandler封装了handler.post()方法。所以activity子类可以通过调用runOnUIThread()方法实现异步消息处理。
-
-​	
+runOnUIThread
 
 ## BroadcasetReceiver广播
 
@@ -2386,7 +2272,7 @@ startService(intent); //intent = new Intent(MainActivity.this,Service.class)
         android:type="radial"
         android:useLevel="false" />
 
-</shape>
+</shape> 
 ```
 
 **(平铺渐变)gradient_sweep.xml**:
@@ -2406,7 +2292,7 @@ startService(intent); //intent = new Intent(MainActivity.this,Service.class)
         android:type="sweep"
         android:useLevel="false" />
 
-</shape>
+</shape> 
 ```
 
 调用三个drawable的**activity_main.xml**:
@@ -2436,7 +2322,7 @@ startService(intent); //intent = new Intent(MainActivity.this,Service.class)
         android:layout_height="100dp"
         android:background="@drawable/gradient_sweep" />
 
-</LinearLayout>
+</LinearLayout>  
 ```
 
 ## BitmapDrawable
@@ -2457,19 +2343,19 @@ startService(intent); //intent = new Intent(MainActivity.this,Service.class)
 **①XML定义BitmapDrawable**:
 
 ```
-<?xml version="1.0" encoding="utf-8"?>
-<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
-    android:dither="true"
-    android:src="@drawable/ic_launcher"
+<?xml version="1.0" encoding="utf-8"?>  
+<bitmap xmlns:android="http://schemas.android.com/apk/res/android"  
+    android:dither="true"  
+    android:src="@drawable/ic_launcher"  
     android:tileMode="mirror" />
 ```
 
 **②实现相同效果的Java代码**:
 
 ```
-BitmapDrawable bitDrawable = new BitmapDrawable(bitmap);
-bitDrawable.setDither(true);
-bitDrawable.setTileModeXY(TileMode.MIRROR,TileMode.MIRROR);
+BitmapDrawable bitDrawable = new BitmapDrawable(bitmap);  
+bitDrawable.setDither(true);  
+bitDrawable.setTileModeXY(TileMode.MIRROR,TileMode.MIRROR);  
 ```
 
 ## ClipDrawable
@@ -2562,7 +2448,7 @@ public class MainActivity extends AppCompatActivity {
             </shape>
         </clip>
     </item>
-</layer-list>
+</layer-list> 
 ```
 
 然后在布局文件中添加一个Seekbar，内容如下：
@@ -3422,7 +3308,116 @@ Fragment也可以调用**FragmentTransaction**对象的**setTransition(int trans
 
 FragmentTransaction.**TRANSIT_NONE** 无动画
 
-FragmentTransaction**.TRANSIT_FRAGMENT_OPEN** 打开形式的动画
+FragmentTransaction.**TRANSIT_FRAGMENT_OPEN** 打开形式的动画
 
 FragmentTransaction.**TRANSIT_FRAGMENT_CLOSE** 关闭形式的动画
+
+##### 将补间动画在控件上使用
+
+AnimationUtils.loadAnimation();来加载动画配置文件。
+
+```
+Animation animation = AnimationUtils.loadAnimation(AnimationMoreDemoActivity.this, R.anim.rotate_in);
+iv_show_anim.startAnimation(animation);
+```
+
+##### 动画状态的监听
+
+> 我们可以对动画的执行状态进行监听，调用动画对象的：
+
+- **setAnimationListener(new AnimationListener())**方法，重写下面的三个方法：
+- **onAnimationStart**()：动画开始
+- **onAnimtaionRepeat**()：动画重复
+- **onAnimationEnd**()：动画结束
+
+用法：
+
+```
+public class AnimationMoreDemoActivity extends AppCompatActivity {
+
+    ImageView iv_show_anim;
+    RelativeLayout rl_show_anim;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_animation_more_demo);
+        iv_show_anim= (ImageView) findViewById(R.id.iv_show_anim);
+        rl_show_anim= (RelativeLayout) findViewById(R.id.rl_show_anim);
+        RelativeLayout.LayoutParams layoutParams=new RelativeLayout.LayoutParams(100,100);
+        iv_show_anim.setLayoutParams(layoutParams);
+        iv_show_anim.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Animation animation = AnimationUtils.loadAnimation(AnimationMoreDemoActivity.this, R.anim.rotate_in);
+                iv_show_anim.startAnimation(animation);
+                animation.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        int width = rl_show_anim.getWidth();
+                        int height = rl_show_anim.getHeight();
+                        RelativeLayout.LayoutParams layoutParams=new RelativeLayout.LayoutParams(100,100);
+                        int widths = new Random().nextInt(width);
+                        int heights = new Random().nextInt(height);
+                        layoutParams.setMargins(widths-30,heights-30,0,0);
+                        iv_show_anim.setLayoutParams(layoutParams);
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+            }
+        });
+
+    }
+}
+```
+
+布局文件：
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:id="@+id/rl_show_anim"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    <ImageView
+        android:id="@+id/iv_show_anim"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@mipmap/d"
+        />
+    </RelativeLayout>
+</LinearLayout>
+```
+
+动画文件：
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<set android:duration="1000" xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <rotate android:pivotX="50%"
+        android:pivotY="50%"
+        android:fromDegrees="180"
+        android:toDegrees="360"
+        >
+
+    </rotate>
+
+</set>
+```
 
