@@ -1767,187 +1767,6 @@ getWindow().setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, android.R.drawa
 setTitle(R.string.actdialog_title);  //XML代码中设置:android:label="@string/activity_dialog"
 ```
 
-最后要在AndroidManifest.xml里面配置你新写的Activity。
-
-
-
-## DrawerLayout
-
-使用的注意事项
-
-> - **1**.主内容视图一定要是DrawerLayout的第一个子视图
-> - **2**.主内容视图宽度和高度需要match_parent
-> - **3**.必须显示指定侧滑视图的android:**layout_gravity属性** android:layout_gravity = "start"时，从左向右滑出菜单 android:layout_gravity = "end"时，从右向左滑出菜单 不推荐使用left和right!!!
-> - 侧滑视图的宽度以dp为单位，不建议超过**320dp**(为了总能看到一些主内容视图)
-> - 设置侧滑事件：mDrawerLayout.setDrawerListener(DrawerLayout.DrawerListener);
-
-主布局：
-
-```xml
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/drawer_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <FrameLayout
-        android:id="@+id/ly_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <ListView
-        android:id="@+id/list_left_drawer"
-        android:layout_width="180dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:background="#080808"
-        android:choiceMode="singleChoice"
-        android:divider="#FFFFFF"
-        android:dividerHeight="1dp" />
-
-</android.support.v4.widget.DrawerLayout>
-```
-
-相关方法：
-
-- **1**. drawer_layout.**openDrawer**(Gravity.END);
-  这句是设置打开的哪个菜单START代表左边，END代表右边，也可以传入View对象。
-- **2**. drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED,Gravity.END); 锁定右面的侧滑菜单，不能通过手势关闭或者打开，只能通过代码打开！即调用openDrawer方法！ 接着 drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED,Gravity.END); 解除锁定状态，即可以通过手势关闭侧滑菜单 最后在drawer关闭的时候调用： drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED, Gravity.END); 再次锁定右边的侧滑菜单！
-
-## File
-
-基本操作：
-
-```java
-/**
- * 添加一个文件，文件名为当前时间
- *
- * @param view
- */
-public void addFile(View view) {
-    try {
-        String fileName = Environment.getExternalStorageDirectory().getCanonicalPath() + "/信息.txt";
-        FileOutputStream outputStream = new FileOutputStream(fileName);
-        outputStream.write(("我叫张三" + System.currentTimeMillis()).getBytes());
-        outputStream.close();
-        Toast.makeText(this, "写入文件成功！", Toast.LENGTH_SHORT).show();
-    } catch (IOException e) {
-        e.printStackTrace();
-        Toast.makeText(this, "写入文件失败！", Toast.LENGTH_SHORT).show();
-    }
-
-}
-
-/**
- * 显示刚刚文件内容
- *
- * @param view
- */
-public void showFileContent(View view) {
-    try {
-        FileInputStream inputStream = new FileInputStream(Environment.getExternalStorageDirectory().getCanonicalPath() + "/信息.txt");
-        byte[] bytes = new byte[1024];
-        int len;
-        StringBuilder s = new StringBuilder();
-        while ((len = inputStream.read(bytes)) > 0) {
-            s.append(new String(bytes, 0, len));
-        }
-        Toast.makeText(this, "文件信息：" + s, Toast.LENGTH_SHORT).show();
-    } catch (IOException e) {
-        e.printStackTrace();
-        Toast.makeText(this, "读取文件失败", Toast.LENGTH_SHORT).show();
-    }
-}
-```
-
-
-
-## SharedPreferences
-
-基本操作：
-
-```java
-    /**
-     * 通过SharedPreferences保存数据
-     *
-     * @param view
-     */
-    public void saveData(View view) {
-        SharedPreferences sp = getSharedPreferences("datas", MODE_PRIVATE);
-        SharedPreferences.Editor edit = sp.edit();
-        edit.putString("name", "张三" + System.currentTimeMillis());
-        edit.putInt("age", 20);
-//        edit.commit();//主线程
-        edit.apply();//后台
-    }
-
-    /**
-     * 通过SharedPreferences读取数据
-     *
-     * @param view
-     */
-    public void readData(View view) {
-        SharedPreferences sp = getSharedPreferences("datas", MODE_PRIVATE);
-        String name = sp.getString("name", "默认");
-        int age = sp.getInt("age", 0);
-        Toast.makeText(this, "name:" + name + ",age:" + age, Toast.LENGTH_SHORT).show();
-    }
-```
-
-
-
-## SQLiteDatabase
-
-创建表，增删改查：
-
-```java
-    /**
-     * 数据库操作
-     * @param view
-     */
-    public void creatTable(View view) {
-        SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase(getFilesDir() + "/persons.db", null);
-        db.execSQL("create table persons(id Integer primary key autoincrement,name text,age int)");
-        db.close();
-    }
-
-    public void addPerson(View view) {
-        SQLiteDatabase db = SQLiteDatabase.openDatabase(getFilesDir() + "/persons.db", null, SQLiteDatabase.OPEN_READWRITE);
-        random = new Random();
-        db.execSQL("insert into persons(name,age) values(?,?)",
-                new Object[]{random.nextInt(100000) + "张三", random.nextInt(100)});
-        db.close();
-        queryPerson(null);
-    }
-
-    public void queryPerson(View view) {
-        personList.clear();
-        SQLiteDatabase db = SQLiteDatabase.openDatabase(getFilesDir() + "/persons.db", null, SQLiteDatabase.OPEN_READWRITE);
-        Cursor cursor = db.rawQuery("select * from persons", null);
-        while (cursor.moveToNext()) {
-            personList.add(new Person(cursor.getInt(0), cursor.getString(1), cursor.getInt(2)));
-        }
-        cursor.close();
-        db.close();
-        adapter.notifyDataSetChanged();
-    }
-
-    public void modifyPerson(View view) {
-        SQLiteDatabase db = SQLiteDatabase.openDatabase(getFilesDir() + "/persons.db", null, SQLiteDatabase.OPEN_READWRITE);
-        //修改id最小的person的age
-        db.execSQL("update persons set age=? where id=(select min(id) from persons)", new Object[]{random.nextInt(100)});
-        db.close();
-        queryPerson(null);
-    }
-
-    public void deletePerson(View view) {
-        SQLiteDatabase db = SQLiteDatabase.openDatabase(getFilesDir() + "/persons.db", null, SQLiteDatabase.OPEN_READWRITE);
-//        db.execSQL("delete from persons where id=(select min(id) from persons)");
-        db.delete("persons","id=(select min(id) from persons)",null);
-        db.close();
-        queryPerson(null);
-    }
-```
-
 
 
 
@@ -2279,9 +2098,69 @@ sendBroadcast(intent);
 
 ![img](http://www.runoob.com/wp-content/uploads/2015/08/11165797.jpg)
 
-**创建一个**
+**创建一个类**
+
+```java
+public class TestService1 extends Service {  
+	
+    //必须实现的方法，绑定该Service时回调该方法，不绑定则不需要返回
+    @Override  
+    public IBinder onBind(Intent intent) {  
+        Log.i(TAG, "onBind方法被调用!");  
+        return null;  
+    }
+    
+     //Service被创建时回调  
+    @Override  
+    public void onCreate() { ... }
+    
+    //Service被关闭前回调  
+    @Override  
+    public void onDestroy() { ... }
+    
+    //Service被启动时调用  
+    @Override  
+    public int onStartCommand(Intent intent, int flags, int startId) {  
+        ...  
+        return super.onStartCommand(intent, flags, startId);  
+    }
+    
+}
+```
+
+**在主配置文件中去注册Service**
+
+```xml
+<!-- 配置Service组件,同时配置一个action -->  
+<service android:name=".TestService1">  
+            <intent-filter>  
+                <action android:name="com.jay.example.service.TEST_SERVICE1"/>  
+            </intent-filter>  
+</service>  
+```
+
+**代码中启动**
+
+```java
+startService(intent); //intent = new Intent(MainActivity.this,Service.class)
+```
 
 
+
+## HttpURLConnection (Android网络请求)
+
+**HttpURLConnection的使用步骤**
+
+使用HttpURLConnection的步骤如下：
+
+> - 创建一个URL对象： **URL url = new URL(https://www.baidu.com);**
+> - 调用URL对象的openConnection( )来获取HttpURLConnection对象实例： **HttpURLConnection conn = (HttpURLConnection) url.openConnection();**
+> - 设置HTTP请求使用的方法:GET或者POST，或者其他请求方式比如：PUT **conn.setRequestMethod("GET");**
+> - 设置连接超时，读取超时的毫秒数，以及服务器希望得到的一些消息头 **conn.setConnectTimeout(6\*1000);** **conn.setReadTimeout(6 \* 1000);**
+> - 调用getInputStream()方法获得服务器返回的输入流，然后输入流进行读取了 **InputStream in = conn.getInputStream();**
+> - 最后调用disconnect()方法将HTTP连接关掉 **conn.disconnect();**
+
+**PS**:除了上面这些外,有时我们还可能需要对**响应码**进行判断,比如200: if(conn.getResponseCode() != 200);
 
 
 
