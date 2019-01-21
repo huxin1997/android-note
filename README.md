@@ -104,13 +104,62 @@ listView 复用原理：每一个item显示时都需要调用adapter的getView�
 
 ​	![](.\img\recycler.jpg)
 
-大佬就是大佬
-
 ### issue
 
 ​	如果使用了recycler缓存机制，新加载的item由于是复用之间隐藏的item将会出现控件属性还是之间item的，造成状态混乱。
 
 ​	![](F:\资料文档\笔记\Android笔记\img\listview_checkbox.gif)
+
+常用属性：
+
+```xml
+<ListView
+        android:id="@+id/lv_1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@android:color/holo_blue_bright"
+        android:dividerHeight="2dp"/>
+```
+
+divider：列表项之间绘制的可绘制的颜色。
+
+dividerHeight：divider的高度。
+
+预览图如下：
+
+![1546657356751](C:\Users\baikunlong\AppData\Roaming\Typora\typora-user-images\1546657356751.png)
+
+使用xml配置ListView的数据
+
+entries：填充res里的values里已经配置好的固定数据
+
+```xml
+<ListView
+    android:id="@+id/lv_0"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:entries="@array/listview_data"/>
+```
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="listview_data">
+        <item>这是xml配置的数据01</item>
+        <item>这是xml配置的数据012</item>
+        <item>这是xml配置的数据013</item>
+        <item>这是xml配置的数据014</item>
+        <item>这是xml配置的数据015</item>
+        <item>这是xml配置的数据016</item>
+        <item>这是xml配置的数据017</item>
+        <item>这是xml配置的数据018</item>
+    </string-array>
+</resources>
+```
+
+运行结果如下：
+
+![1546658930283](C:\Users\baikunlong\AppData\Roaming\Typora\typora-user-images\1546658930283.png)
 
 
 
