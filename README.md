@@ -1425,7 +1425,7 @@ listView 复用原理：每一个item显示时都需要调用adapter的getView�
 
 ​	![](.\img\recycler.jpg)
 
-### issue
+**issue**
 
 ​	如果使用了recycler缓存机制，新加载的item由于是复用之间隐藏的item将会出现控件属性还是之间item的，造成状态混乱。
 
@@ -1595,9 +1595,7 @@ LinearLayout是一个控件容器，用于将容器内的子元素按照指定�
 
 ![](.\img\relative_layout.jpg)梅花布局
 
-![
-
-](F:\资料文档\笔记\Android笔记\img\meihua.jpg)
+![](.\img\meihua.jpg)
 
 ## Spinner
 
@@ -1779,6 +1777,50 @@ setTitle(R.string.actdialog_title);  //XML代码中设置:android:label="@string
 
 - **android:groupIndicator**：显示在组列表旁边的Drawable对象，可以是一个图像
 
+![](.\img\expandable_1.jpg)
+
+**生成group视图**
+
+```java
+@Override
+public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+        if (convertView == null) {
+         convertView = getLayoutInflater().inflate(android.R.layout.simple_expandable_list_item_1, parent, false);
+         }
+          TextView groupName = convertView.findViewById(android.R.id.text1);
+          groupName.setText(groups.get(groupPosition).groupName);
+          return convertView;
+}
+```
+
+**生成group的items视图**
+
+```java
+            @Override
+            public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+//                if (convertView == null) {
+                View view = getLayoutInflater().inflate(R.layout.item_person, parent, false);
+//                }？
+
+                final Person person = groups.get(groupPosition).items.get(childPosition);
+
+                ImageView imageView = view.findViewById(R.id.img_person);
+                TextView tvName = view.findViewById(R.id.tv_name);
+                CheckBox checkBox = view.findViewById(R.id.cb_select);
+
+
+                imageView.setBackgroundResource(person.imgId);
+                tvName.setText(person.name);
+                checkBox.setChecked(person.isSeleted);
+                checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        person.isSeleted = isChecked;
+                    }
+                });
+                return view;
+            }
+```
 
 
 
@@ -2116,7 +2158,7 @@ sendBroadcast(intent);
         android:type="radial"
         android:useLevel="false" />
 
-</shape> 
+</shape>
 ```
 
 **(平铺渐变)gradient_sweep.xml**:
@@ -2136,7 +2178,7 @@ sendBroadcast(intent);
         android:type="sweep"
         android:useLevel="false" />
 
-</shape> 
+</shape>
 ```
 
 调用三个drawable的**activity_main.xml**:
@@ -2166,7 +2208,7 @@ sendBroadcast(intent);
         android:layout_height="100dp"
         android:background="@drawable/gradient_sweep" />
 
-</LinearLayout>  
+</LinearLayout>
 ```
 
 ## BitmapDrawable
@@ -2187,19 +2229,19 @@ sendBroadcast(intent);
 **①XML定义BitmapDrawable**:
 
 ```
-<?xml version="1.0" encoding="utf-8"?>  
-<bitmap xmlns:android="http://schemas.android.com/apk/res/android"  
-    android:dither="true"  
-    android:src="@drawable/ic_launcher"  
+<?xml version="1.0" encoding="utf-8"?>
+<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
+    android:dither="true"
+    android:src="@drawable/ic_launcher"
     android:tileMode="mirror" />
 ```
 
 **②实现相同效果的Java代码**:
 
 ```
-BitmapDrawable bitDrawable = new BitmapDrawable(bitmap);  
-bitDrawable.setDither(true);  
-bitDrawable.setTileModeXY(TileMode.MIRROR,TileMode.MIRROR);  
+BitmapDrawable bitDrawable = new BitmapDrawable(bitmap);
+bitDrawable.setDither(true);
+bitDrawable.setTileModeXY(TileMode.MIRROR,TileMode.MIRROR);
 ```
 
 ## ClipDrawable
@@ -2292,7 +2334,7 @@ public class MainActivity extends AppCompatActivity {
             </shape>
         </clip>
     </item>
-</layer-list> 
+</layer-list>
 ```
 
 然后在布局文件中添加一个Seekbar，内容如下：
